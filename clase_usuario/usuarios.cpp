@@ -14,9 +14,10 @@ usuario::~usuario()
 {
 }
 
-void usuario::setid(int b)
+void usuario::setid()
 {
-	ObjetoUsuarios.id = b;
+	LeerArchivoUsuario();
+	ObjetoUsuarios.id = ObjetoUsuarios.id+1;
 }
 
 int usuario::getid()
@@ -128,6 +129,8 @@ void usuario::RegistrarUsuario()
 	setusuario(usuario);
 	setpassword(password);
 	setrol(rol);
+	setid();
+	getid();
 	getnombre();
 	getapellido();
 	getusuario();

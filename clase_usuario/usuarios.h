@@ -16,7 +16,7 @@ class usuario
 public:
 	usuario();
 	~usuario();
-	void setid(int);
+	void setid();
 	int getid();
 	void setnombre(string);
 	string getnombre(); 
