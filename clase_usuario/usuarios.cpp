@@ -171,6 +171,89 @@ void usuario::creararchivousuarios()
 	}
 }
 
+void usuario::LeerArchivoUsuario()
+{
+	try
+	{
+		//Primero trata de abrir el archivo
+		ifstream SaveFile;
+		SaveFile.open("usuarios.csv");
+		if (!SaveFile)
+		{
+			throw std::runtime_error("No se pudo abrir el usuarios.csv");
+		}
+		//Si se abre, se crean variables auxiliares
+		string line;
+		UsuariosRegistrados temporal;
+		//Se usa el metodo modifica linea para leer cada linea del archivo
+		while (getline(SaveFile, line))
+		{
+			UsuariosRegistrados temporal;
+			string templine = line;
+			templine = ModificaLinea(templine, 1, temporal);
+			templine = ModificaLinea(templine, 2, temporal);
+			templine = ModificaLinea(templine, 3, temporal);
+			templine = ModificaLinea(templine, 4, temporal);
+			templine = ModificaLinea(templine, 5, temporal);
+			templine = ModificaLinea(templine, 6, temporal);
+			//Las almacena todas en un vector
+			VectorUsuarios.push_back(temporal);
+		}
+		SaveFile.close();
+	}
+	catch (const std::exception& e)
+	{
+		cerr << "Ocurrio un error al leer el archivo" << endl;
+	}
+	//Las desempaqueta para poder usar las variables mas facil
+	for (int i = 0; i < VectorUsuarios.size(); i++)
+	{
+		ObjetoUsuarios.id = VectorUsuarios[i].id;
+		ObjetoUsuarios.nombre = VectorUsuarios[i].nombre;
+		ObjetoUsuarios.apellido = VectorUsuarios[i].apellido;
+		ObjetoUsuarios.usuario = VectorUsuarios[i].usuario;
+		ObjetoUsuarios.password = VectorUsuarios[i].password;
+		ObjetoUsuarios.rol = VectorUsuarios[i].rol;
+	}
+}
+
+string usuario::ModificaLinea(string cadena, int elemento, UsuariosRegistrados& temporal)
+{
+	size_t pos = cadena.find(",");
+	string value;
+	if (pos != string::npos)
+	{
+		value = cadena.substr(0, pos);
+		cadena = cadena.substr(pos + 1);
+	}
+	else
+	{
+		value = cadena;
+	}
+	switch (elemento)
+	{
+	case 1:
+		temporal.id = stoi(value);
+		break;
+	case 2:
+		temporal.nombre = value;
+		break;
+	case 3:
+		temporal.apellido = value;
+		break;
+	case 4:
+		temporal.usuario = stoi(value);
+		break;
+	case 5:
+		temporal.password = value;
+		break;
+	case 6:
+		temporal.rol = stoi(value);
+		break;
+	}
+	return cadena;
+}
+
 
 
  

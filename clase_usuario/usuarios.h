@@ -30,6 +30,8 @@ public:
 	int getrol();
 	void RegistrarUsuario();
 	void creararchivousuarios();
+	void LeerArchivoUsuario();
+
 
 private:
 protected:
@@ -46,5 +48,7 @@ protected:
 	};
 	
 	 UsuariosRegistrados ObjetoUsuarios;
+	 vector<UsuariosRegistrados> VectorUsuarios;
 
+	 string ModificaLinea(string, int, UsuariosRegistrados&);
 };
