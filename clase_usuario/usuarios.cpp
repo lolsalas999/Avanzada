@@ -80,9 +80,7 @@ void usuario::RegistrarUsuario()
 	string nombre;
 	cout << "Dame el Nombre del Empleado a registrar: ";
 	cin >> nombre;
-	int id;
-	cout << "Deme el id del Empleado a registrar: ";
-	cin >> id;
+	//Placeholder id 
 	string apellido;
 	cout << "Deme el apellido del Empleado a registrar: ";
 	cin >> apellido;
@@ -127,13 +125,11 @@ void usuario::RegistrarUsuario()
 	}
 	setnombre(nombre);
 	setapellido(apellido);
-	setid(id);
 	setusuario(usuario);
 	setpassword(password);
 	setrol(rol);
 	getnombre();
 	getapellido();
-	getid();
 	getusuario();
 	getpassword();
 	getrol();
