@@ -2,15 +2,11 @@
 
 Venta::Venta()
 {
+	idVenta = unique_id++;
 }
 
 Venta::~Venta()
 {
-}
-
-void Venta::setIdVenta(int id)
-{
-	idVenta = id;
 }
 
 int Venta::getIdVenta()

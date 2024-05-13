@@ -8,7 +8,6 @@ class ProductoVendido
 public:
 	ProductoVendido();
 	~ProductoVendido();
-	void setId(int i);
 	int getId();
 	void setIdSale(int id);
 	int getIdSale();
@@ -23,6 +22,7 @@ private:
 
 protected:
 	int id;
+	static int unique_id;
 	int id_sale;
 	int id_product;
 	int quantity;
