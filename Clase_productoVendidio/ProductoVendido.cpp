@@ -2,15 +2,11 @@
 
 ProductoVendido::ProductoVendido()
 {
+	id = unique_id++;
 }
 
 ProductoVendido::~ProductoVendido()
 {
-}
-
-void ProductoVendido::setId(int i)
-{
-	id = i;
 }
 
 int ProductoVendido::getId()

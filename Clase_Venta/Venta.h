@@ -9,7 +9,6 @@ class Venta
 public:
 	Venta();
 	~Venta();
-	void setIdVenta(int id);
 	int getIdVenta();
 	void setIdCliente(int id);
 	int getIdCliente();
@@ -24,6 +23,7 @@ private:
 
 protected:
 	int idVenta;
+	static int unique_id;
 	int idCliente;
 	int idEmpleado;
 	float total_amount;
