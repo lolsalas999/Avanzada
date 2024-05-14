@@ -32,6 +32,8 @@ public:
 	int getstock();
 	void registrarproducto();
 	void archivoproductos();
+	void leerproductos();
+
 
 private:
 protected:
@@ -47,4 +49,7 @@ protected:
 		int stock;
 	};
 	infoProducto Producto;
+	string ModificaLinea(string, int, infoProducto&);
+	vector<infoProducto> VectorProductos;
 };
+
