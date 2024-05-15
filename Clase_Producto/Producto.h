@@ -14,22 +14,31 @@ class Productos
 public:
 	Productos();
 	~Productos();
+	
 	void setid(int);
 	int getid();
+	
 	void setupc(string);
 	string getupc();
+	
 	void setname(string);
 	string getname();
+	
 	void setid_presentacion(int);
 	int getid_presentacion();
+	
 	void setprice(float);
 	float getprice();
+	
 	void setcost(float);
 	float getcost();
+	
 	void sethas_iva(bool);
 	bool gethas_iva();
+	
 	void setstock(int);
 	int getstock();
+	
 	void registrarproducto();
 	void archivoproductos();
 	void leerproductos();

@@ -1,7 +1,6 @@
 #pragma once
-#include <iostream>
-#include <string>
-
+#include "Venta.h"
+#include "Producto.h"
 using namespace std;
 class ProductoVendido
 {
@@ -18,6 +17,10 @@ public:
 	void setSalePricePerUnit(float price);
 	float getSalePricePerUnit();
 
+	void registrarProductoVendido(Venta venta, Productos p);
+	void leerProductosVendios();
+	void archivoProductosVendios();
+
 private:
 
 protected:
@@ -27,4 +30,15 @@ protected:
 	int id_product;
 	int quantity;
 	float sale_price_per_unit;
+
+	struct infoProductoVendido {
+		int id;
+		int id_venta;
+		int id_producto;
+		int cantidad;
+		float ppu;
+	};
+	infoProductoVendido productoVendido;
+	string ModificaLinea(string, int, infoProductoVendido&);
+	vector<infoProductoVendido> VectorVendidos;
 };
