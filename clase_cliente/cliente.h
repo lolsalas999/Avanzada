@@ -6,6 +6,7 @@
 #include <ostream>
 #include <stdexcept>
 #include <ctime>
+#pragma warning(disable : 4996) //more reaserch necessary
 
 using namespace std;
 
@@ -39,6 +40,8 @@ public:
 	void setzipcode(string);
 	string getzipcode();
 
+	string gettime();
+
 	void RegisterCliente();
 	void CreateClientesArchive();
 	void ReadArchiveCliente();
@@ -62,6 +65,7 @@ protected:
 		string ciudad;
 		string estado;
 		string zipcode;
+		string date;
 	};
 	Clientes ClientesObject;
 	string ModificaLinea(string, int, Clientes&);

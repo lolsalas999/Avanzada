@@ -97,6 +97,17 @@ string Cliente::getzipcode()
 	return ClientesObject.zipcode;
 }
 
+string Cliente::gettime()
+{
+	// current date and time on the current system
+	time_t now = time(0);
+
+	// convert now to string form
+	char* date_time = ctime(&now);
+	string date = date_time;
+	return date;
+}
+
 void Cliente::RegisterCliente()
 {
 	bool program = true;
@@ -236,6 +247,8 @@ void Cliente::RegisterCliente()
 	setzipcode(zipcode);
 	getzipcode();
 
+	ClientesObject.date = gettime();
+
 	ofstream SaveFile;
 	try
 	{
@@ -246,7 +259,7 @@ void Cliente::RegisterCliente()
 		}
 		SaveFile.seekp(0, ios::end); // Mover el puntero al final del archivo
 		SaveFile << endl;
-		SaveFile << ClientesObject.id << "," << ClientesObject.name << "," << ClientesObject.RFC << "," << ClientesObject.fiscal_regimen_id << "," << ClientesObject.direccion << "," << ClientesObject.ciudad << "," << ClientesObject.estado << "," << ClientesObject.zipcode << endl;
+		SaveFile << ClientesObject.id << "," << ClientesObject.name << "," << ClientesObject.RFC << "," << ClientesObject.fiscal_regimen_id << "," << ClientesObject.direccion << "," << ClientesObject.ciudad << "," << ClientesObject.estado << "," << ClientesObject.zipcode << "," << ClientesObject.date << endl;
 		SaveFile.close();
 	}
 	catch (const std::exception& e)
@@ -266,7 +279,7 @@ void Cliente::CreateClientesArchive()
 		{
 			throw std::runtime_error("No se pudo abrir el clientes.csv para escritura");
 		}
-		SaveFile << "Id,Nombre,RFC,Identificador de Regimen Fiscal,Direccion,Ciudad,Estado,Codigo Postal";
+		SaveFile << "Id,Nombre,RFC,Identificador de Regimen Fiscal,Direccion,Ciudad,Estado,Codigo Postal,Fecha Registro";
 		SaveFile.close();
 	}
 	catch (const std::exception& e)
@@ -307,6 +320,7 @@ void Cliente::ReadArchiveCliente()
 			templine = ModificaLinea(templine, 6, temporal);
 			templine = ModificaLinea(templine, 7, temporal);
 			templine = ModificaLinea(templine, 8, temporal);
+			templine = ModificaLinea(templine, 9, temporal);
 			//Las almacena todas en un vector
 			VectorClientes.push_back(temporal);
 		}
@@ -880,11 +894,11 @@ void Cliente::SobreEscribirCliente()
 			throw std::runtime_error("No se pudo abrir el clientes.csv para escritura");
 		}
 
-		SaveFile << "Id,Nombre,RFC,Identificador de Regimen Fiscal,Direccion,Ciudad,Estado,Codigo Postal" << endl;
+		SaveFile << "Id,Nombre,RFC,Identificador de Regimen Fiscal,Direccion,Ciudad,Estado,Codigo Postal,Fecha Vencimiento" << endl;
 
 		for (int i = 0; i < VectorClientes.size(); i++)
 		{
-			SaveFile << VectorClientes[i].id << "," << VectorClientes[i].name << "," << VectorClientes[i].RFC << "," << VectorClientes[i].fiscal_regimen_id << "," << VectorClientes[i].direccion << "," << VectorClientes[i].ciudad << "," << VectorClientes[i].estado << "," << VectorClientes[i].zipcode << endl;
+			SaveFile << VectorClientes[i].id << "," << VectorClientes[i].name << "," << VectorClientes[i].RFC << "," << VectorClientes[i].fiscal_regimen_id << "," << VectorClientes[i].direccion << "," << VectorClientes[i].ciudad << "," << VectorClientes[i].estado << "," << VectorClientes[i].zipcode << "," << VectorClientes[i].date << endl;
 		}
 
 		SaveFile.close();
@@ -963,6 +977,8 @@ void Cliente::BusquedaCliente()
 					cout << "Ciudad: " << VectorClientes[i].ciudad << endl;
 					cout << "Estado: " << VectorClientes[i].estado << endl;
 					cout << "Codigo Postal: " << VectorClientes[i].zipcode << endl;
+					cout << "Fecha: " << VectorClientes[i].date << endl;
+					cout << '\n' << endl;
 				}
 				else
 				{
@@ -992,6 +1008,7 @@ void Cliente::BusquedaCliente()
 					cout << "Ciudad: " << VectorClientes[i].ciudad << endl;
 					cout << "Estado: " << VectorClientes[i].estado << endl;
 					cout << "Codigo Postal: " << VectorClientes[i].zipcode << endl;
+					cout << "Fecha: " << VectorClientes[i].date << endl;
 					cout << '\n' << endl;
 				}
 				else
@@ -1022,6 +1039,7 @@ void Cliente::BusquedaCliente()
 					cout << "Ciudad: " << VectorClientes[i].ciudad << endl;
 					cout << "Estado: " << VectorClientes[i].estado << endl;
 					cout << "Codigo Postal: " << VectorClientes[i].zipcode << endl;
+					cout << "Fecha: " << VectorClientes[i].date << endl;
 					cout << '\n' << endl;
 				}
 				else
@@ -1052,6 +1070,7 @@ void Cliente::BusquedaCliente()
 					cout << "Ciudad: " << VectorClientes[i].ciudad << endl;
 					cout << "Estado: " << VectorClientes[i].estado << endl;
 					cout << "Codigo Postal: " << VectorClientes[i].zipcode << endl;
+					cout << "Fecha: " << VectorClientes[i].date << endl;
 					cout << '\n' << endl;
 				}
 				else
@@ -1121,6 +1140,9 @@ string Cliente::ModificaLinea(string cadena, int elemento, Clientes& temporal)
 		break;
 	case 8:
 		temporal.zipcode = value;
+		break;
+	case 9:
+		temporal.date = value;
 		break;
 	}
 	return cadena;
