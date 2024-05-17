@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <vector>
 #include <string>
@@ -41,7 +42,12 @@ public:
 	void RegisterCliente();
 	void CreateClientesArchive();
 	void ReadArchiveCliente();
-
+	void EditCliente();
+	void BorrarCliente();
+	void SobreEscribirCliente();
+	void BusquedaCliente();
+	int VectorSize();
+	void Clear();
 
 private:
 protected:
