@@ -238,6 +238,157 @@ void Productos::leerproductos()
     }
 }
 
+vector<string> Productos::buscarproducto(string search)
+{
+    vector<string> resultado;
+    string file_name = "Productos.csv";
+    ifstream SaveFile;
+    SaveFile.open(file_name);
+    bool found = false;
+    string field1, field2, field3, field4, field5, field6, field7, field8;
+    while (getline(SaveFile, field1, ',') && !found)
+    {
+        getline(SaveFile, field2, ',');
+        getline(SaveFile, field3, ',');
+        getline(SaveFile, field4, ',');
+        getline(SaveFile, field5, ',');
+        getline(SaveFile, field6, ',');
+        getline(SaveFile, field7, ',');
+        getline(SaveFile, field8, '\n');
+        if (field2 == search)
+        {
+            found = true;
+            resultado.push_back(field1);
+            resultado.push_back(field2);
+            resultado.push_back(field3);
+            resultado.push_back(field4);
+            resultado.push_back(field5);
+            resultado.push_back(field6);
+            resultado.push_back(field7);
+            resultado.push_back(field8);
+        }
+    }
+    return resultado;
+}
+
+void Productos::modificarproducto(string search)
+{
+    string file_name = "Productos.csv";
+    int line_number = 0;
+    fstream read_file;
+    read_file.open(file_name);
+    if (read_file.fail()) {
+        cout << "Error abrir el archivo" << endl;
+    }
+    else {
+        vector<string> lines;
+        string line;
+        while (getline(read_file, line)) {
+            lines.push_back(line);
+        }
+        read_file.close();
+        vector<string> resultado;
+        ifstream SaveFile;
+        SaveFile.open(file_name);
+        bool found = false;
+        string field1, field2, field3, field4, field5, field6, field7, field8;
+        while (getline(SaveFile, field1, ',') && !found)
+        {
+            line_number++;
+            getline(SaveFile, field2, ',');
+            getline(SaveFile, field3, ',');
+            getline(SaveFile, field4, ',');
+            getline(SaveFile, field5, ',');
+            getline(SaveFile, field6, ',');
+            getline(SaveFile, field7, ',');
+            getline(SaveFile, field8, '\n');
+            if (field2 == search)
+            {
+                found = true;
+                resultado.push_back(field1);
+                resultado.push_back(field2);
+                resultado.push_back(field3);
+                resultado.push_back(field4);
+                resultado.push_back(field5);
+                resultado.push_back(field6);
+                resultado.push_back(field7);
+                resultado.push_back(field8);
+            }
+        }
+        int choice;
+        if (found)
+        {
+            do {
+                cout << endl;
+                cout << "==================== Modificar Producto ====================\n";
+                cout << "1. ID" << endl;
+                cout << "2. Nombre" << endl;
+                cout << "3. Id Presentacion" << endl;
+                cout << "4. Precio" << endl;
+                cout << "5. Costo" << endl;
+                cout << "6. IVA" << endl;
+                cout << "7. Stock" << endl;
+                cout << "0. Quit" << endl;
+                cin >> choice;
+                switch (choice)
+                {
+                case 1:
+                    cout << "Nuevo ID: ";
+                    cin >> resultado[0];
+                    break;
+                case 2:
+                    cout << "Nuevo nombre: ";
+                    cin >> resultado[2];
+                    break;
+                case 3:
+                    cout << "Nuevo ID Presentacion: ";
+                    cin >> resultado[3];
+                    break;
+                case 4:
+                    cout << "Nuevo precio: ";
+                    cin >> resultado[4];
+                    break;
+                case 5:
+                    cout << "Nuevo costo: ";
+                    cin >> resultado[5];
+                    break;
+                case 6:
+                    cout << "IVA (1 para si, 0 para no): ";
+                    cin >> resultado[6];
+                    break;
+                case 7:
+                    cout << "Nuevo stock: ";
+                    cin >> resultado[7];
+                    break;
+                default:
+                    cout << "bye bye" << endl;
+                    break;
+                }
+
+            } while (choice != 0);
+            lines[line_number - 1] = resultado[0] + "," + resultado[1] + "," + resultado[2] + "," + resultado[3] + "," + resultado[4] + "," + resultado[5] + "," + resultado[6] + "," + resultado[7];
+        }
+        else
+        {
+            cout << "Producto no encontrado" << endl;
+        }
+        ofstream write_file;
+        write_file.open(file_name);
+        if (write_file.fail())
+        {
+            cout << "Error al abrir el archivo para escribir" << endl;
+        }
+        else
+        {
+            for (int i = 0; i < lines.size(); i++)
+            {
+                write_file << lines[i] << endl;
+            }
+        }
+
+    }
+}
+
 string Productos::ModificaLinea(string cadena, int elemento, infoProducto& temporal)
 {
     size_t pos = cadena.find(",");
