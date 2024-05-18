@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <vector>
 #include <string>
@@ -5,6 +6,7 @@
 #include <ostream>
 #include <stdexcept>
 #include <ctime>
+#pragma warning(disable : 4996) //more reaserch necessary
 
 using namespace std;
 
@@ -38,10 +40,17 @@ public:
 	void setzipcode(string);
 	string getzipcode();
 
+	string gettime();
+
 	void RegisterCliente();
 	void CreateClientesArchive();
 	void ReadArchiveCliente();
-
+	void EditCliente();
+	void BorrarCliente();
+	void SobreEscribirCliente();
+	void BusquedaCliente();
+	int VectorSize();
+	void Clear();
 
 private:
 protected:
@@ -56,6 +65,7 @@ protected:
 		string ciudad;
 		string estado;
 		string zipcode;
+		string date;
 	};
 	Clientes ClientesObject;
 	string ModificaLinea(string, int, Clientes&);
