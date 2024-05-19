@@ -1102,6 +1102,45 @@ void Cliente::Clear()
 	VectorClientes.clear();
 }
 
+void Cliente::CrearReporteArchivo()
+{
+	ofstream SaveFile;
+	try
+	{
+		SaveFile.open("reporteusuarios.txt", fstream::out);
+		if (!SaveFile)
+		{
+			throw std::runtime_error("No se pudo abrir el reportesusuarios.txt para escritura");
+		}
+		SaveFile << endl;
+		SaveFile.close();
+	}
+	catch (const std::exception& e)
+	{
+		cerr << "Ocurrio un error al escribir en reporteusuarios.txt" << e.what() << endl;
+	}
+}
+
+void Cliente::RegistrarReporteCliente(string usuario, string accion)
+{
+	ofstream SaveFile;
+	try
+	{
+		SaveFile.open("reporteusuarios.txt", fstream::app);
+		if (!SaveFile)
+		{
+			throw std::runtime_error("No se pudo abrir el reportesusuarios.txt para escritura");
+		}
+		SaveFile << endl;
+		SaveFile << "El usuario " << usuario << "hizo " << accion << endl;
+		SaveFile.close();
+	}
+	catch (const std::exception& e)
+	{
+		cerr << "Ocurrio un error al escribir en reporteusuarios.txt" << e.what() << endl;
+	}
+}
+
 string Cliente::ModificaLinea(string cadena, int elemento, Clientes& temporal)
 {
 	size_t pos = cadena.find(",");
@@ -1147,5 +1186,3 @@ string Cliente::ModificaLinea(string cadena, int elemento, Clientes& temporal)
 	}
 	return cadena;
 }
-
-

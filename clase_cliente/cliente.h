@@ -6,11 +6,12 @@
 #include <ostream>
 #include <stdexcept>
 #include <ctime>
+#include "usuarios.h"
 #pragma warning(disable : 4996) //more reaserch necessary
 
 using namespace std;
 
-class Cliente
+class Cliente : public usuario
 {
 public:
 	Cliente();
@@ -42,6 +43,7 @@ public:
 
 	string gettime();
 
+
 	void RegisterCliente();
 	void CreateClientesArchive();
 	void ReadArchiveCliente();
@@ -51,6 +53,8 @@ public:
 	void BusquedaCliente();
 	int VectorSize();
 	void Clear();
+	void CrearReporteArchivo();
+	void RegistrarReporteCliente(string, string);
 
 private:
 protected:

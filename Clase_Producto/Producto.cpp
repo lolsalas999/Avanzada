@@ -100,7 +100,9 @@ int Productos::getstock()
 
 void Productos::registrarproducto()
 {
-    leerproductos();
+    vectorpresentacionl.clear();
+    leerarchivopresentacion();
+    bool program = true;
     char seguir = 's';
     do {
         cout << "\n==================== Registro de Producto ====================\n";
@@ -108,17 +110,34 @@ void Productos::registrarproducto()
 
         string upc;
         cout << "Ingrese el UPC del producto: ";
-        getline(cin, upc);
+        cin >> upc;
         setupc(upc);
 
         string name;
         cout << "Ingrese el nombre del producto: ";
-        getline(cin, name);
+        cin >> name;
         setname(name);
 
         int id_presentacion;
-        cout << "Ingrese el ID de la presentacion asociada: ";
-        cin >> id_presentacion;
+        while (program)
+        {
+            cout << vectorpresentacionl.size() << endl;
+            cout << "Ingrese el ID de la presentacion asociada: ";
+            cin >> id_presentacion;
+            for (int i = 0; i < vectorpresentacionl.size(); i++)
+            {
+
+                if (vectorpresentacionl[i].id == id_presentacion)
+                {
+                    program = false;
+                }
+                else
+                {
+                    cout << "Por favor ingrese un id existente de presentacion" << endl;
+                }
+            }
+        }
+
         setid_presentacion(id_presentacion);
 
         float price;
@@ -160,6 +179,7 @@ void Productos::registrarproducto()
 
 void Productos::archivoproductos()
 {
+
     ofstream SaveFile;
     try
     {
@@ -389,6 +409,11 @@ void Productos::modificarproducto(string search)
     }
 }
 
+void Productos::ClearProductos()
+{
+    VectorProductos.clear();
+}
+
 string Productos::ModificaLinea(string cadena, int elemento, infoProducto& temporal)
 {
     size_t pos = cadena.find(",");
@@ -437,4 +462,3 @@ string Productos::ModificaLinea(string cadena, int elemento, infoProducto& tempo
     }
     return cadena;
 }
-

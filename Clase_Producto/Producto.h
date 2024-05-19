@@ -6,10 +6,11 @@
 #include <fstream>
 #include <ostream>
 #include <stdexcept>
+#include "Presentacion.h"
 
 using namespace std;
 
-class Productos
+class Productos : public Presentacion
 {
 public:
 	Productos();
@@ -46,6 +47,8 @@ public:
 	vector<string> buscarproducto(string);
 	void modificarproducto(string);
 
+	void ClearProductos();
+
 
 private:
 protected:
@@ -64,6 +67,3 @@ protected:
 	string ModificaLinea(string, int, infoProducto&);
 	vector<infoProducto> VectorProductos;
 };
-
-#pragma once
-

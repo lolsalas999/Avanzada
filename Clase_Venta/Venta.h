@@ -6,14 +6,21 @@
 #include <fstream>
 #include <ostream>
 #include <stdexcept>
+#include "Producto.h"
 #pragma warning(disable : 4996) //more reaserch necessary
 using namespace std;
-class Venta
+class Venta : public Productos
 {
 public:
 	Venta();
 	~Venta();
 	int getIdVenta();
+	int getcant();
+	int getppu();
+	void setcant(int);
+	void setppu(int);
+	void setidproducto(int);
+	int getidproducto();
 	void setIdCliente(int id);
 	int getIdCliente();
 	void setIdEmpleado(int id);
@@ -25,23 +32,25 @@ public:
 	void archivoVenta();
 	void leerVentas();
 
+	void clearventas();
 
 private:
-
-
 protected:
+
 	int idVenta;
-	static int unique_id;
+	int unique_id;
 	int idCliente;
 	int idEmpleado;
 	float total_amount;
 	string date_time;
 
-
 	struct infoVenta {
 		int id;
 		int id_Cliente;
 		int id_Empleado;
+		int idproducto;
+		int cant;
+		int ppu;
 		float total;
 		string date;
 	};
@@ -49,4 +58,6 @@ protected:
 	string ModificaLinea(string, int, infoVenta&);
 	vector<infoVenta> VectorVentas;
 };
+
+
 
