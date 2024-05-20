@@ -17,6 +17,6 @@ public:
     void GenerarReporteReposicion();
 
 private:
-    void LeerProductos();
+    void leerProductos();
     void LeerVentas();
 };

@@ -10,63 +10,11 @@ ReporteInventario::~ReporteInventario() {
 }
 
 void ReporteInventario::LeerProductos() {
-    VectorProductos.clear();
-    try {
-        ifstream SaveFile("Productos.csv");
-        if (!SaveFile) {
-            throw std::runtime_error("No se pudo abrir Productos.csv");
-        }
-        string line;
-        getline(SaveFile, line); // Omitir la primera línea (encabezado)
-        while (getline(SaveFile, line)) {
-            if (line.empty()) continue; // Evitar líneas vacías
-            infoProducto temporal;
-            string templine = line;
-            templine = ModificaLinea(templine, 1, temporal);
-            templine = ModificaLinea(templine, 2, temporal);
-            templine = ModificaLinea(templine, 3, temporal);
-            templine = ModificaLinea(templine, 4, temporal);
-            templine = ModificaLinea(templine, 5, temporal);
-            templine = ModificaLinea(templine, 6, temporal);
-            templine = ModificaLinea(templine, 7, temporal);
-            templine = ModificaLinea(templine, 8, temporal);
-            VectorProductos.push_back(temporal);
-        }
-        SaveFile.close();
-    }
-    catch (const std::exception& e) {
-        cerr << "Ocurrió un error al leer el archivo: " << e.what() << endl;
-    }
+    LeerProductos();
 }
 
 void ReporteInventario::LeerVentas() {
-    VectorVentas.clear();
-    try {
-        ifstream SaveFile("Ventas.csv");
-        if (!SaveFile) {
-            throw std::runtime_error("No se pudo abrir Ventas.csv");
-        }
-        string line;
-        getline(SaveFile, line); // Omitir la primera línea (encabezado)
-        while (getline(SaveFile, line)) {
-            if (line.empty()) continue; // Evitar líneas vacías
-            infoVenta temporal;
-            string templine = line;
-            templine = ModificaLinea(templine, 1, temporal);
-            templine = ModificaLinea(templine, 2, temporal);
-            templine = ModificaLinea(templine, 3, temporal);
-            templine = ModificaLinea(templine, 4, temporal);
-            templine = ModificaLinea(templine, 5, temporal);
-            templine = ModificaLinea(templine, 6, temporal);
-            templine = ModificaLinea(templine, 7, temporal);
-            templine = ModificaLinea(templine, 8, temporal);
-            VectorVentas.push_back(temporal);
-        }
-        SaveFile.close();
-    }
-    catch (const std::exception& e) {
-        cerr << "Ocurrió un error al leer el archivo: " << e.what() << endl;
-    }
+    LeerVentas();
 }
 
 void ReporteInventario::GenerarReporteInventario() {
