@@ -160,16 +160,16 @@ void ProductoVendido::leerProductosVendios()
         productoVendido.ppu = VectorVendidos[i].ppu;
 
     }
-    //Para probar si está leyendo el archivo correctamente, implemento este ciclo for.
-    for (int i = 0; i < VectorVendidos.size(); i++)
-    {
-        cout << "ID: " << VectorVendidos[i].id
-            << ", ID Venta: " << VectorVendidos[i].id_venta
-            << ", ID Producto: " << VectorVendidos[i].id_producto
-            << ", cantidad vendida: " << VectorVendidos[i].cantidad
-            << ", precio por unidad: " << VectorVendidos[i].ppu << endl;
+    ////Para probar si está leyendo el archivo correctamente, implemento este ciclo for.
+    //for (int i = 0; i < VectorVendidos.size(); i++)
+    //{
+    //    cout << "ID: " << VectorVendidos[i].id
+    //        << ", ID Venta: " << VectorVendidos[i].id_venta
+    //        << ", ID Producto: " << VectorVendidos[i].id_producto
+    //        << ", cantidad vendida: " << VectorVendidos[i].cantidad
+    //        << ", precio por unidad: " << VectorVendidos[i].ppu << endl;
 
-    }
+    //}
 }
 
 string ProductoVendido::ModificaLinea(string cadena, int elemento, infoProductoVendido& temporal)

@@ -374,19 +374,19 @@ void Venta::leerVentas()
         venta.date = VectorVentas[i].date;
 
     }
-    //Para probar si está leyendo el archivo correctamente, implemento este ciclo for.
-    for (int i = 0; i < VectorVentas.size(); i++)
-    {
-        cout << "ID: " << VectorVentas[i].id
-            << ", ID Cliente: " << VectorVentas[i].id_Cliente
-            << ", ID Empleado: " << VectorVentas[i].id_Empleado
-            << ", ID producto: " << VectorVentas[i].idproducto
-            << ", Cantidada: " << VectorVentas[i].cant
-            << ", Precio por unidad: " << VectorVentas[i].ppu
-            << ", Total: " << VectorVentas[i].total
-            << ", Fecha: " << VectorVentas[i].date << endl;
+    ////Para probar si está leyendo el archivo correctamente, implemento este ciclo for.
+    //for (int i = 0; i < VectorVentas.size(); i++)
+    //{
+    //    cout << "ID: " << VectorVentas[i].id
+    //        << ", ID Cliente: " << VectorVentas[i].id_Cliente
+    //        << ", ID Empleado: " << VectorVentas[i].id_Empleado
+    //        << ", ID producto: " << VectorVentas[i].idproducto
+    //        << ", Cantidada: " << VectorVentas[i].cant
+    //        << ", Precio por unidad: " << VectorVentas[i].ppu
+    //        << ", Total: " << VectorVentas[i].total
+    //        << ", Fecha: " << VectorVentas[i].date << endl;
 
-    }
+    //}
 }
 
 void Venta::clearventas()
