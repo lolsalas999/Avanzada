@@ -106,18 +106,19 @@ void Venta::registrarVenta()
     bool program = true;
     bool found = false;
     bool notfound = false;
+    cout << VectorVentas.size() << endl;
+    if (VectorVentas.size() == 0)
+    {
+        venta.id = 1;
+    }
+    else
+    {
+        venta.id = venta.id + 1;
+    }
 
     do {
         cout << "\n==================== Registro de Ventas ====================\n";
-        cout << VectorVentas.size() << endl;
-        if (VectorVentas.size() == 0)
-        {
-            venta.id = 1;
-        }
-        else
-        {
-            venta.id = venta.id + 1;
-        }
+
 
         int idCliente;
         while (program)
@@ -286,7 +287,7 @@ void Venta::registrarVenta()
 
                 SaveFile << "Id,UPC,Nombre,Id_presentacion,Precio,Costo,IVA,Stock" << endl;
 
-                for (int i = 0; i < VectorClientes.size(); i++)
+                for (int i = 0; i < VectorProductos.size(); i++)
                 {
                     SaveFile << VectorProductos[i].id << "," << VectorProductos[i].UPC << "," << VectorProductos[i].name << "," << VectorProductos[i].id_presentacion << "," << VectorProductos[i].price << "," << VectorProductos[i].cost << "," << VectorProductos[i].has_iva << "," << VectorProductos[i].stock << endl;
                 }
