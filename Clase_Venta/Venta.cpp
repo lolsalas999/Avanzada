@@ -107,19 +107,20 @@ void Venta::registrarVenta()
     bool found = false;
     bool notfound = false;
     cout << VectorVentas.size() << endl;
-    if (VectorVentas.size() == 0)
-    {
-        venta.id = 1;
-    }
-    else
-    {
-        venta.id = venta.id + 1;
-    }
+
 
     do {
         cout << "\n==================== Registro de Ventas ====================\n";
+        if (VectorVentas.size() == 0)
+        {
+            venta.id = 1;
+        }
+        else
+        {
+            venta.id = venta.id + 1;
+        }
 
-
+        program = true;
         int idCliente;
         while (program)
         {
