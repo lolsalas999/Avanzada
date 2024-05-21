@@ -1,12 +1,16 @@
 #include "reporte_inventario.h"
 
 ReporteInventario::ReporteInventario() {
-    // Usamos los métodos de lectura heredados.
-    leerproductos();
-    leerVentas();
+    // Usamos los métodos de lecturas de las clases heredadas.
+    leerproductos();//Leemos los productos actuales
+    leerVentas();//Leemos los movimientos en ventas
 }
 
-ReporteInventario::~ReporteInventario() {}
+ReporteInventario::~ReporteInventario() {
+
+}
+
+//En los siguientes, simplemente hacemos el display de cada vector con su información útil para generar los reportes debidos
 
 void ReporteInventario::GenerarReporteInventario() {
     leerproductos();
@@ -27,9 +31,9 @@ void ReporteInventario::GenerarReporteMovimiento() {
 void ReporteInventario::GenerarReporteReposicion() {
     leerproductos();
     cout << "\n=== Reporte de Necesidades de Reposición ===\n";
-    const int umbral = 10; // Umbral de reposición
+    int stockminimo = 5; // Límite que hay (Antes del enviar el mensaje de "reposición necesaria")
     for (size_t i = 0; i < VectorProductos.size(); ++i) {
-        if (VectorProductos[i].stock < umbral) {
+        if (VectorProductos[i].stock <= stockminimo) {
             cout << "ID: " << VectorProductos[i].id << ", Nombre: " << VectorProductos[i].name << ", Stock: " << VectorProductos[i].stock << " (Necesita Reposición)\n";
         }
     }

@@ -8,7 +8,7 @@
 
 using namespace std;
 
-class ReporteInventario : public Productos, public Venta {
+class ReporteInventario : public Venta {
 public:
     ReporteInventario();
     ~ReporteInventario();
