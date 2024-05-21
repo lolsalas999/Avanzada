@@ -1,44 +1,35 @@
 #include "reporte_inventario.h"
 
 ReporteInventario::ReporteInventario() {
-    LeerProductos();
-    LeerVentas();
+    // Usamos los métodos de lectura heredados.
+    leerproductos();
+    leerVentas();
 }
 
-ReporteInventario::~ReporteInventario() {
-
-}
-
-void ReporteInventario::LeerProductos() {
-    LeerProductos();
-}
-
-void ReporteInventario::LeerVentas() {
-    LeerVentas();
-}
+ReporteInventario::~ReporteInventario() {}
 
 void ReporteInventario::GenerarReporteInventario() {
-    LeerProductos();
+    leerproductos();
     cout << "\n=== Reporte de Inventario ===\n";
-    for (int i = 0; i < VectorProductos.size(); ++i) {
+    for (size_t i = 0; i < VectorProductos.size(); ++i) {
         cout << "ID: " << VectorProductos[i].id << ", Nombre: " << VectorProductos[i].name << ", Stock: " << VectorProductos[i].stock << endl;
     }
 }
 
 void ReporteInventario::GenerarReporteMovimiento() {
-    LeerVentas();
+    leerVentas();
     cout << "\n=== Reporte de Movimiento de Productos ===\n";
-    for (int i = 0; i < VectorVentas.size(); ++i) {
+    for (size_t i = 0; i < VectorVentas.size(); ++i) {
         cout << "ID Producto: " << VectorVentas[i].idproducto << ", Cantidad Vendida: " << VectorVentas[i].cant << ", Fecha: " << VectorVentas[i].date << endl;
     }
 }
 
 void ReporteInventario::GenerarReporteReposicion() {
-    LeerProductos();
+    leerproductos();
     cout << "\n=== Reporte de Necesidades de Reposición ===\n";
-    int stockminimo = 1; //El límite para que se necesite un reporte de reposición
-    for (int i = 0; i < VectorProductos.size(); ++i) {
-        if (VectorProductos[i].stock < stockminimo) {
+    const int umbral = 10; // Umbral de reposición
+    for (size_t i = 0; i < VectorProductos.size(); ++i) {
+        if (VectorProductos[i].stock < umbral) {
             cout << "ID: " << VectorProductos[i].id << ", Nombre: " << VectorProductos[i].name << ", Stock: " << VectorProductos[i].stock << " (Necesita Reposición)\n";
         }
     }

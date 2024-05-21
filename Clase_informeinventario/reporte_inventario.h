@@ -15,8 +15,4 @@ public:
     void GenerarReporteInventario();
     void GenerarReporteMovimiento();
     void GenerarReporteReposicion();
-
-private:
-    void leerProductos();
-    void LeerVentas();
 };
