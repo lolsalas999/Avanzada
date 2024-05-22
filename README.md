@@ -18,7 +18,70 @@ específicamente para la gestión de ventas, productos y roles de usuario.
 `string getpassword();`
 `void setrol(int);`
 `int getrol();`
-`void VerUsuarios();`
+>
+Hasta aqui son pares de getters y setters para todos los elementod se la estrutura siguiente. Con exepcion de el campo `date` que funciona de otra manera y sera explicado por separado.
+
+```cpp
+struct UsuariosRegistrados
+{
+    int id;
+    string nombre;
+    string apellido;
+    string usuario;
+    string password;
+    int rol;
+    string date;
+};
+```
+
+
+>
+`void RegistrarUsuario(UsuariosRegistrados&);`
+`void EditarUsuario(UsuariosRegistrados&);`
+`void EliminarUsuarios(UsuariosRegistrados&);`
+`bool IniciarSesion(UsuariosRegistrados&);`
+>
+Estas funciones trabajan con un vector de tipo `<UsuariosRegistrados>`  con el nombre `VectorUsuarios` para cumplir las funciones y guardar los mismos en el archivo scv.
+
+<ins>**Registrar usuario:**</ins>
+```cpp
+if (usuarioActual.rol != 4) {
+	cout << "Acceso denegado. Solo los usuarios con rol administrativo pueden registrar nuevos usuarios." << endl;
+	return;
+}
+```
+Lo primero es checar si el usurio que esta realizando la tarea tiene los permisos de registrar nuevos usuarios, si no se les niega seguir.
+
+```cpp
+	cout << "Dame el Nombre del Empleado a registrar: ";
+	cin >> nombre;
+	cout << "Deme el apellido del Empleado a registrar: ";
+	cin >> apellido;
+	cout << "Deme el username del Empleado a registrar: ";
+	cin >> usuario;
+	cout << "Deme el password del Empleado a registrar: ";
+	cin >> password;
+```
+Luego se pide que ingresen los datos del usuario a registrar.
+
+```cpp
+	cout << "Estos son los roles disponibles para el empleado: " << endl;
+cout << "1. Ventas" << endl;
+cout << "2. Administracion" << endl;
+cout << "3. Recursos Humanos" << endl;
+cout << "4. Admin" << endl;
+cout << "Ingrese la opcion deseada para el empleado a registrar: ";
+if (!(cin >> rol)) {
+	cin.clear();
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	cout << "Por favor ingrese un numero valido." << endl;
+	continue;
+}
+```
+Finalmente se assigna un rol dentrop del sitema y este se pasa a un swich el numero leido en el bloque anterior donsde se assinga el rol y se rompe el while donde esta el bloque para assegurarnos que no se salten pasos del ingreso de archivos.
+
+
+>`void VerUsuarios();`
 `void gestionarUsuarios();`
 `bool LeerArchivoUsuario();`
 `void ActualizarArchivoUsuario();`
