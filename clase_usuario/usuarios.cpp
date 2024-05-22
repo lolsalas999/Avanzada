@@ -80,12 +80,9 @@ int usuario::getrol()
 	return ObjetoUsuarios.rol;
 }
 
-void usuario::RegistrarUsuario(UsuariosRegistrados& usuarioActual)
+void usuario::RegistrarUsuario()
 {
-	if (usuarioActual.rol != 4) {
-		cout << "Acceso denegado. Solo los usuarios con rol administrativo pueden registrar nuevos usuarios." << endl;
-		return;
-	}
+
 
 	do {
 		bool program = true;
@@ -172,10 +169,7 @@ void usuario::RegistrarUsuario(UsuariosRegistrados& usuarioActual)
 
 void usuario::EditarUsuario(UsuariosRegistrados& usuarioActual)
 {
-	if (usuarioActual.rol != 4) {
-		cout << "Acceso denegado. Solo los usuarios con rol administrativo pueden editar usuarios." << endl;
-		return;
-	}
+
 
 	do {
 		try {
@@ -439,6 +433,7 @@ void usuario::EliminarUsuarios(UsuariosRegistrados& usuarioActual)
 
 void usuario::gestionarUsuarios()
 {
+	string xd;
 	if (!ifstream("usuarios.csv")) {
 		cout << "Primera vez iniciando el programa. Creando cuenta de administrador por defecto..." << endl;
 		setnombre("admin");
@@ -473,7 +468,7 @@ void usuario::gestionarUsuarios()
 	}
 
 	UsuariosRegistrados usuarioActual;
-	if (!IniciarSesion(usuarioActual)) {
+	if (!IniciarSesion(usuarioActual, xd)) {
 		cout << "Nombre de usuario o contrasena incorrectos. Saliendo del programa..." << endl;
 		return;
 	}
@@ -494,7 +489,7 @@ void usuario::gestionarUsuarios()
 
 		switch (opc) {
 		case 1:
-			RegistrarUsuario(usuarioActual);
+			RegistrarUsuario();
 			break;
 		case 2:
 			EditarUsuario(usuarioActual);
@@ -581,7 +576,7 @@ void usuario::ActualizarArchivoUsuario()
 	SaveFile.close();
 }
 
-bool usuario::IniciarSesion(UsuariosRegistrados& usuarioActual)
+bool usuario::IniciarSesion(UsuariosRegistrados& usuarioActual, string& user)
 {
 	string username, password;
 	int intentos = 0;
@@ -603,6 +598,7 @@ bool usuario::IniciarSesion(UsuariosRegistrados& usuarioActual)
 				cout << "----------------------------------------" << endl;
 				cout << "Inicio de sesion exitoso. Bienvenido, " << usuarioActual.nombre << "." << endl;
 				cout << "----------------------------------------" << endl;
+				user = username;
 				return true;
 			}
 		}
@@ -662,6 +658,72 @@ void usuario::OrdenarUsuariosPorID()
 			}
 		}
 	}
+}
+
+void usuario::UsuarioClear()
+{
+	VectorUsuarios.clear();
+}
+
+bool usuario::CallLogin(string& user)
+{
+	if (!ifstream("usuarios.csv")) {
+		cout << "Primera vez iniciando el programa. Creando cuenta de administrador por defecto..." << endl;
+		setnombre("admin");
+		setapellido("admin");
+		setusuario("admin");
+		setpassword("admin");
+		setrol(4);
+		setid();
+		ObjetoUsuarios.date = getDateTime();
+
+		VectorUsuarios.push_back(ObjetoUsuarios);
+
+		ofstream SaveFile;
+		try {
+			SaveFile.open("usuarios.csv", fstream::out);
+			if (!SaveFile) {
+				throw std::runtime_error("No se pudo abrir el usuarios.csv para escritura");
+			}
+			SaveFile << "Id,Nombre,Apellido,Usuario,Password,Rol,Fecha" << endl;
+			SaveFile << ObjetoUsuarios.id << "," << ObjetoUsuarios.nombre << "," << ObjetoUsuarios.apellido << "," << ObjetoUsuarios.usuario << "," << ObjetoUsuarios.password << "," << ObjetoUsuarios.rol << "," << ObjetoUsuarios.date << endl;
+			SaveFile.close();
+			cout << "Cuenta de administrador creada exitosamente." << endl;
+			cout << "Usuario: admin" << endl;
+			cout << "Contrasena: admin" << endl;
+		}
+		catch (const std::exception& e) {
+			cerr << "Ocurrio un error al escribir en usuarios.csv: " << e.what() << endl;
+		}
+	}
+	else {
+		LeerArchivoUsuario();
+	}
+
+	UsuariosRegistrados usuarioActual;
+	if (!IniciarSesion(usuarioActual, user)) {
+		cout << "Nombre de usuario o contrasena incorrectos. Saliendo del programa..." << endl;
+		return false;
+	}
+}
+
+int usuario::GetRole(string user)
+{
+	int a = 0;
+	LeerArchivoUsuario();
+	for (int i = 0; i < VectorUsuarios.size(); i++)
+	{
+		if (user == VectorUsuarios[i].usuario)
+		{
+			a = VectorUsuarios[i].rol;
+		}
+	}
+	return a;
+}
+
+void usuario::callRegister()
+{
+	RegistrarUsuario();
 }
 
 string usuario::ModificaLinea(string cadena, int elemento, UsuariosRegistrados& temporal)

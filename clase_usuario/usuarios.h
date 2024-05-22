@@ -36,6 +36,10 @@ public:
     string getDateTime();
     void LimpiarPantalla();
     void OrdenarUsuariosPorID();
+    void UsuarioClear();
+    bool CallLogin(string&);
+    int GetRole(string);
+    void callRegister();
 
 private:
 protected:
@@ -55,8 +59,8 @@ protected:
     vector<UsuariosRegistrados> VectorUsuarios;
 
     string ModificaLinea(string, int, UsuariosRegistrados&);
-    void RegistrarUsuario(UsuariosRegistrados&);
+    void RegistrarUsuario();
     void EditarUsuario(UsuariosRegistrados&);
     void EliminarUsuarios(UsuariosRegistrados&);
-    bool IniciarSesion(UsuariosRegistrados&);
+    bool IniciarSesion(UsuariosRegistrados&, string&);
 };
