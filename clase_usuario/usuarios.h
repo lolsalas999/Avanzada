@@ -29,7 +29,6 @@ public:
     void setrol(int);
     int getrol();
     void VerUsuarios();
-    void gestionarUsuarios();
     bool LeerArchivoUsuario();
     void ActualizarArchivoUsuario();
     bool AdministradorExiste();
@@ -37,9 +36,11 @@ public:
     void LimpiarPantalla();
     void OrdenarUsuariosPorID();
     void UsuarioClear();
-    bool CallLogin(string&);
-    int GetRole(string);
-    void callRegister();
+    bool CallLogin(string& useractual, int& role);
+    void RegistrarUsuario(int& rol, string& useractual);
+    void EditarUsuario(int& rol, string& useractual);
+    void EliminarUsuarios(int& rol, string& useractual);
+    bool IniciarSesion(string& useractual, int& rol);
 
 private:
 protected:
@@ -59,8 +60,4 @@ protected:
     vector<UsuariosRegistrados> VectorUsuarios;
 
     string ModificaLinea(string, int, UsuariosRegistrados&);
-    void RegistrarUsuario();
-    void EditarUsuario(UsuariosRegistrados&);
-    void EliminarUsuarios(UsuariosRegistrados&);
-    bool IniciarSesion(UsuariosRegistrados&, string&);
 };

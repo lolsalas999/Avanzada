@@ -80,9 +80,12 @@ int usuario::getrol()
 	return ObjetoUsuarios.rol;
 }
 
-void usuario::RegistrarUsuario()
+void usuario::RegistrarUsuario(int& rol, string& useractual)
 {
-
+	if (rol != 4) {
+		cout << "Acceso denegado. Solo los usuarios con rol administrativo pueden registrar nuevos usuarios." << endl;
+		return;
+	}
 
 	do {
 		bool program = true;
@@ -167,9 +170,12 @@ void usuario::RegistrarUsuario()
 	} while (true);
 }
 
-void usuario::EditarUsuario(UsuariosRegistrados& usuarioActual)
+void usuario::EditarUsuario(int& rol, string& useractual)
 {
-
+	if (rol != 4) {
+		cout << "Acceso denegado. Solo los usuarios con rol administrativo pueden editar usuarios." << endl;
+		return;
+	}
 
 	do {
 		try {
@@ -369,9 +375,9 @@ void usuario::VerUsuarios()
 	} while (true);
 }
 
-void usuario::EliminarUsuarios(UsuariosRegistrados& usuarioActual)
+void usuario::EliminarUsuarios(int& rol, string& useractual)
 {
-	if (usuarioActual.rol != 4) {
+	if (rol != 4) {
 		cout << "Acceso denegado. Solo los usuarios con rol administrativo pueden eliminar usuarios." << endl;
 		return;
 	}
@@ -429,86 +435,6 @@ void usuario::EliminarUsuarios(UsuariosRegistrados& usuarioActual)
 			return;
 		}
 	} while (true);
-}
-
-void usuario::gestionarUsuarios()
-{
-	string xd;
-	if (!ifstream("usuarios.csv")) {
-		cout << "Primera vez iniciando el programa. Creando cuenta de administrador por defecto..." << endl;
-		setnombre("admin");
-		setapellido("admin");
-		setusuario("admin");
-		setpassword("admin");
-		setrol(4);
-		setid();
-		ObjetoUsuarios.date = getDateTime();
-
-		VectorUsuarios.push_back(ObjetoUsuarios);
-
-		ofstream SaveFile;
-		try {
-			SaveFile.open("usuarios.csv", fstream::out);
-			if (!SaveFile) {
-				throw std::runtime_error("No se pudo abrir el usuarios.csv para escritura");
-			}
-			SaveFile << "Id,Nombre,Apellido,Usuario,Password,Rol,Fecha" << endl;
-			SaveFile << ObjetoUsuarios.id << "," << ObjetoUsuarios.nombre << "," << ObjetoUsuarios.apellido << "," << ObjetoUsuarios.usuario << "," << ObjetoUsuarios.password << "," << ObjetoUsuarios.rol << "," << ObjetoUsuarios.date << endl;
-			SaveFile.close();
-			cout << "Cuenta de administrador creada exitosamente." << endl;
-			cout << "Usuario: admin" << endl;
-			cout << "Contrasena: admin" << endl;
-		}
-		catch (const std::exception& e) {
-			cerr << "Ocurrio un error al escribir en usuarios.csv: " << e.what() << endl;
-		}
-	}
-	else {
-		LeerArchivoUsuario();
-	}
-
-	UsuariosRegistrados usuarioActual;
-	if (!IniciarSesion(usuarioActual, xd)) {
-		cout << "Nombre de usuario o contrasena incorrectos. Saliendo del programa..." << endl;
-		return;
-	}
-
-	int opc;
-	bool continuar = true;
-
-	while (continuar) {
-		LeerArchivoUsuario();
-		cout << "Bienvenido al sistema de gestion de usuarios" << endl;
-		cout << "1. Registrar nuevo usuario" << endl;
-		cout << "2. Editar usuario existente" << endl;
-		cout << "3. Ver todos los usuarios" << endl;
-		cout << "4. Eliminar usuario" << endl;
-		cout << "5. Salir" << endl;
-		cout << "Por favor, elija una opcion: ";
-		cin >> opc;
-
-		switch (opc) {
-		case 1:
-			RegistrarUsuario();
-			break;
-		case 2:
-			EditarUsuario(usuarioActual);
-			break;
-		case 3:
-			VerUsuarios();
-			break;
-		case 4:
-			EliminarUsuarios(usuarioActual);
-			break;
-		case 5:
-			continuar = false;
-			cout << "Saliendo del sistema de gestión de usuarios..." << endl;
-			break;
-		default:
-			cout << "Opcion no valida. Por favor, intente nuevamente." << endl;
-			break;
-		}
-	}
 }
 
 bool usuario::LeerArchivoUsuario()
@@ -576,7 +502,7 @@ void usuario::ActualizarArchivoUsuario()
 	SaveFile.close();
 }
 
-bool usuario::IniciarSesion(UsuariosRegistrados& usuarioActual, string& user)
+bool usuario::IniciarSesion(string& useractual, int& rol)
 {
 	string username, password;
 	int intentos = 0;
@@ -592,13 +518,13 @@ bool usuario::IniciarSesion(UsuariosRegistrados& usuarioActual, string& user)
 		cout << "Ingrese su contrasena: ";
 		cin >> password;
 
-		for (int i = 0; i < VectorUsuarios.size(); i++) {
+		for (size_t i = 0; i < VectorUsuarios.size(); ++i) {
 			if (VectorUsuarios[i].usuario == username && VectorUsuarios[i].password == password) {
-				usuarioActual = VectorUsuarios[i];
+				useractual = VectorUsuarios[i].usuario;
+				rol = VectorUsuarios[i].rol;
 				cout << "----------------------------------------" << endl;
-				cout << "Inicio de sesion exitoso. Bienvenido, " << usuarioActual.nombre << "." << endl;
+				cout << "Inicio de sesion exitoso. Bienvenido, " << VectorUsuarios[i].nombre << "." << endl;
 				cout << "----------------------------------------" << endl;
-				user = username;
 				return true;
 			}
 		}
@@ -665,7 +591,7 @@ void usuario::UsuarioClear()
 	VectorUsuarios.clear();
 }
 
-bool usuario::CallLogin(string& user)
+bool usuario::CallLogin(string& useractual, int& rol)
 {
 	if (!ifstream("usuarios.csv")) {
 		cout << "Primera vez iniciando el programa. Creando cuenta de administrador por defecto..." << endl;
@@ -700,30 +626,7 @@ bool usuario::CallLogin(string& user)
 		LeerArchivoUsuario();
 	}
 
-	UsuariosRegistrados usuarioActual;
-	if (!IniciarSesion(usuarioActual, user)) {
-		cout << "Nombre de usuario o contrasena incorrectos. Saliendo del programa..." << endl;
-		return false;
-	}
-}
-
-int usuario::GetRole(string user)
-{
-	int a = 0;
-	LeerArchivoUsuario();
-	for (int i = 0; i < VectorUsuarios.size(); i++)
-	{
-		if (user == VectorUsuarios[i].usuario)
-		{
-			a = VectorUsuarios[i].rol;
-		}
-	}
-	return a;
-}
-
-void usuario::callRegister()
-{
-	RegistrarUsuario();
+	return IniciarSesion(useractual, rol);
 }
 
 string usuario::ModificaLinea(string cadena, int elemento, UsuariosRegistrados& temporal)
