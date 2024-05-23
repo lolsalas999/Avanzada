@@ -4,6 +4,8 @@
 
 using namespace std;
 
+void ReporteUsuarios(vector<string> a, vector<string>b);
+
 int main()
 {
     Cliente Pruebas;
@@ -132,4 +134,12 @@ int main()
     //		break;
     //	}
     //}
+   
+}
+void ReporteUsuarios(vector<string> a, vector<string> b)
+{
+    for (int i = 0; i < a.size(); i++)
+    {
+        cout << "El usuario " << a[i] << " llevo a cabo la acción de " << b[i] << endl;
+    }
 }
