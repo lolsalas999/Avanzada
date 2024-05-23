@@ -62,12 +62,12 @@ string usuario::getusuario()
 
 void usuario::setpassword(string e)
 {
-	ObjetoUsuarios.password = e;
+	ObjetoUsuarios.password = encriptar(e);
 }
 
 string usuario::getpassword()
 {
-	return ObjetoUsuarios.password;
+	return desencriptar(ObjetoUsuarios.password);
 }
 
 void usuario::setrol(int f)
@@ -141,7 +141,7 @@ void usuario::RegistrarUsuario(int& rol, string& useractual)
 		setnombre(nombre);
 		setapellido(apellido);
 		setusuario(usuario);
-		setpassword(password);
+		setpassword(password); // Se encripta aquí
 		setrol(rol);
 		setid();
 		ObjetoUsuarios.date = getDateTime();
@@ -519,7 +519,7 @@ bool usuario::IniciarSesion(string& useractual, int& rol)
 		cin >> password;
 
 		for (size_t i = 0; i < VectorUsuarios.size(); ++i) {
-			if (VectorUsuarios[i].usuario == username && VectorUsuarios[i].password == password) {
+			if (VectorUsuarios[i].usuario == username && desencriptar(VectorUsuarios[i].password) == password) {
 				useractual = VectorUsuarios[i].usuario;
 				rol = VectorUsuarios[i].rol;
 				cout << "----------------------------------------" << endl;
@@ -628,6 +628,24 @@ bool usuario::CallLogin(string& useractual, int& rol)
 
 	return IniciarSesion(useractual, rol);
 }
+
+
+string usuario::encriptar(string& password) {
+	string encriptado = password;
+	for (size_t i = 0; i < encriptado.size(); ++i) {
+		encriptado[i] += 3;
+	}
+	return encriptado;
+}
+
+string usuario::desencriptar(string& password) {
+	string desencriptado = password;
+	for (size_t i = 0; i < desencriptado.size(); ++i) {
+		desencriptado[i] -= 3;
+	}
+	return desencriptado;
+}
+
 
 string usuario::ModificaLinea(string cadena, int elemento, UsuariosRegistrados& temporal)
 {
