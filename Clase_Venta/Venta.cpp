@@ -107,21 +107,18 @@ void Venta::registrarVenta()
     bool found = false;
     bool notfound = false;
     cout << VectorVentas.size() << endl;
-
+    if (VectorVentas.size() == 0)
+    {
+        venta.id = 1;
+    }
+    else
+    {
+        venta.id = venta.id + 1;
+    }
 
     do {
         cout << "\n==================== Registro de Ventas ====================\n";
-        if (VectorVentas.size() == 0)
-        {
-            venta.id = 1;
-        }
-        else
-        {
-            venta.id = venta.id + 1;
-        }
-
-        program = true;
-        int idCliente;
+        int idCliente = 0;
         while (program)
         {
             cout << "Ingrese el id del cliente: ";
@@ -149,7 +146,7 @@ void Venta::registrarVenta()
 
         setIdCliente(idCliente);
         program = true;
-        int idEmpleado;
+        int idEmpleado = 0;
 
         found = false;
         notfound = false;
@@ -224,7 +221,7 @@ void Venta::registrarVenta()
 
         cout << "El precio por unidad de este producto es: " << priceperunit << endl;
 
-        int cant;
+        int cant = 0;
         program = true;
         bool cancelled = false;;
 
@@ -251,7 +248,7 @@ void Venta::registrarVenta()
 
         }
 
-        float total;
+        float total = 0;
         if (cancelled == true)
         {
             cout << "Venta cancelada" << endl;
@@ -292,7 +289,6 @@ void Venta::registrarVenta()
                 {
                     SaveFile << VectorProductos[i].id << "," << VectorProductos[i].UPC << "," << VectorProductos[i].name << "," << VectorProductos[i].id_presentacion << "," << VectorProductos[i].price << "," << VectorProductos[i].cost << "," << VectorProductos[i].has_iva << "," << VectorProductos[i].stock << endl;
                 }
-
                 SaveFile.close();
             }
 
@@ -376,25 +372,45 @@ void Venta::leerVentas()
         venta.date = VectorVentas[i].date;
 
     }
-    ////Para probar si está leyendo el archivo correctamente, implemento este ciclo for.
-    //for (int i = 0; i < VectorVentas.size(); i++)
-    //{
-    //    cout << "ID: " << VectorVentas[i].id
-    //        << ", ID Cliente: " << VectorVentas[i].id_Cliente
-    //        << ", ID Empleado: " << VectorVentas[i].id_Empleado
-    //        << ", ID producto: " << VectorVentas[i].idproducto
-    //        << ", Cantidada: " << VectorVentas[i].cant
-    //        << ", Precio por unidad: " << VectorVentas[i].ppu
-    //        << ", Total: " << VectorVentas[i].total
-    //        << ", Fecha: " << VectorVentas[i].date << endl;
+    //Para probar si está leyendo el archivo correctamente, implemento este ciclo for.
+    for (int i = 0; i < VectorVentas.size(); i++)
+    {
+        cout << "ID: " << VectorVentas[i].id
+            << ", ID Cliente: " << VectorVentas[i].id_Cliente
+            << ", ID Empleado: " << VectorVentas[i].id_Empleado
+            << ", ID producto: " << VectorVentas[i].idproducto
+            << ", Cantidada: " << VectorVentas[i].cant
+            << ", Precio por unidad: " << VectorVentas[i].ppu
+            << ", Total: " << VectorVentas[i].total
+            << ", Fecha: " << VectorVentas[i].date << endl;
 
-    //}
+    }
+}
+
+void Venta::verventas()
+{
+    clearventas();
+    cout << "Estas son las ventas registradas" << endl;
+    for (int i = 0; i < VectorVentas.size(); i++)
+    {
+        cout << "ID: " << VectorVentas[i].id
+            << ", ID Cliente: " << VectorVentas[i].id_Cliente
+            << ", ID Empleado: " << VectorVentas[i].id_Empleado
+            << ", ID producto: " << VectorVentas[i].idproducto
+            << ", Cantidada: " << VectorVentas[i].cant
+            << ", Precio por unidad: " << VectorVentas[i].ppu
+            << ", Total: " << VectorVentas[i].total
+            << ", Fecha: " << VectorVentas[i].date << "\n" << endl;
+
+    }
 }
 
 void Venta::clearventas()
 {
     VectorVentas.clear();
 }
+
+
 
 string Venta::ModificaLinea(string cadena, int elemento, infoVenta& temporal)
 {

@@ -14,6 +14,7 @@ int main()
     Presentacion PruebaPresentacion;
     usuario PruebaUsuario;
     bool program = true;
+    bool programb = true;
     int opc = 0;
     int role = 0;
     string useractual;
@@ -23,6 +24,7 @@ int main()
         if (!program) {
             break;
         }
+        programb = true;
         Pruebas.Clear();
         PruebaProductos.ClearProductos();
         PruebaVenta.clearventas();
@@ -33,7 +35,6 @@ int main()
         PruebaVenta.leerVentas();
         PruebaPresentacion.leerarchivopresentacion();
         PruebaUsuario.LeerArchivoUsuario();
-
         cout << "------WALMAR------" << endl;
         cout << "1. Acceso a Usuarios" << endl;
         cout << "2. Acceso a Clientes" << endl;
@@ -43,36 +44,201 @@ int main()
         cin >> opc;
         switch (opc) {
         case 1:
-            cout << "Bienvenido al area de usuarios" << endl;
-            cout << "1. Registrar Usuario" << endl;
-            cout << "2. Editar Usuario" << endl;
-            cout << "3. Ver Usuario" << endl;
-            cout << "4. Eliminar Usuario" << endl;
-            cout << "5. Salir al menu principal" << endl;
-            cout << "Que funcion quiere usar: ";
-            cin >> opc;
-            switch (opc) {
-            case 1:
-                PruebaUsuario.RegistrarUsuario(role, useractual);
-                break;
-            case 2:
-                PruebaUsuario.EditarUsuario(role, useractual);
-                break;
-            case 3:
-                PruebaUsuario.VerUsuarios();
-                break;
-            case 4:
-                PruebaUsuario.EliminarUsuarios(role, useractual);
-                break;
-            case 5:
-                break;
-            default:
-                cout << "Opcion no valida. Por favor, intente nuevamente." << endl;
-                break;
+            while (programb)
+            {
+                cout << "Bienvenido al area de usuarios" << endl;
+                cout << "1. Registrar Usuario" << endl;
+                cout << "2. Editar Usuario" << endl;
+                cout << "3. Ver Usuario" << endl;
+                cout << "4. Eliminar Usuario" << endl;
+                cout << "5. Salir al menu principal" << endl;
+                cout << "Que funcion quiere usar: ";
+                cin >> opc;
+                switch (opc) {
+                case 1:
+                    PruebaUsuario.RegistrarUsuario(role, useractual);
+                    break;
+                case 2:
+                    PruebaUsuario.EditarUsuario(role, useractual);
+                    break;
+                case 3:
+                    PruebaUsuario.VerUsuarios();
+                    break;
+                case 4:
+                    PruebaUsuario.EliminarUsuarios(role, useractual);
+                    break;
+                case 5:
+                    cout << "Regresando al menú principal" << endl;
+                    programb = false;
+                    break;
+                default:
+                    cout << "Opcion no valida. Por favor, intente nuevamente." << endl;
+                    break;
+                }
             }
             break;
         case 2:
+            while (programb)
+            {
+                cout << "Bienvenido al area de clientes" << endl;
+                cout << "1. Registrar Cliente" << endl;
+                cout << "2. Editar Cliente" << endl;
+                cout << "3. Eliminar Cliente" << endl;
+                cout << "4. Busqueda Cliente" << endl;
+                cout << "5. Salir al menu principal" << endl;
+                cout << "Que funcion quiere usar: ";
+                cin >> opc;
+                switch (opc) {
+                case 1:
+                    if (role == 4 || role == 2)
+                    {
+                        Pruebas.RegisterCliente();
+                    }
+                    else
+                    {
+                        cout << "Acceso denegado, no tiene permiso para ver esta función" << endl;
+                    }
+                    break;
+                case 2:
+                    if (role == 4 || role == 2)
+                    {
+                        Pruebas.EditCliente();
+                    }
+                    else
+                    {
+                        cout << "Acceso denegado, no tiene permiso para ver esta función" << endl;
+                    }
+                    break;
+                case 3:
+                    if (role == 4 || role == 2)
+                    {
+                        Pruebas.BorrarCliente();
+                    }
+                    else
+                    {
+                        cout << "Acceso denegado, no tiene permiso para ver esta función" << endl;
+                    }
+                    break;
+                case 4:
+                    if (role == 4 || role == 2)
+                    {
+                        Pruebas.BusquedaCliente();
+                    }
+                    else
+                    {
+                        cout << "Acceso denegado, no tiene permiso para ver esta función" << endl;
+                    }
+                    break;
+                case 5:
+                    cout << "Regresando al menu principal" << endl;
+                    programb = false;
+                    break;
+                default:
+                    cout << "Opcion no valida. Por favor, intente nuevamente." << endl;
+                    break;
+                }
+            }
             break;
+        case 3:
+            while (programb)
+            {
+                cout << "Bienvenido al area de ventas" << endl;
+                cout << "1. Registrar Venta" << endl;
+                cout << "2. Ver Venta" << endl;
+                cout << "3. Salir al menu principal" << endl;
+                cout << "Que funcion quiere usar: ";
+                cin >> opc;
+                switch (opc) {
+                case 1:
+                    if (role == 4 || role == 1)
+                    {
+                        PruebaVenta.registrarVenta();
+                    }
+                    else
+                    {
+                        cout << "Acceso denegado, no tiene permiso para ver esta función" << endl;
+                    }
+                    break;
+                case 2:
+                    if (role == 4 || role == 1)
+                    {
+                        PruebaVenta.verventas();
+                    }
+                    else
+                    {
+                        cout << "Acceso denegado, no tiene permiso para ver esta función" << endl;
+                    }
+                    break;
+                case 3:
+                    programb = false;
+                    cout << "Regresando al menú principal" << endl;
+                    break;
+                default:
+                    cout << "Opcion no valida. Por favor, intente nuevamente." << endl;
+                    break;
+                }
+            }
+        case 4:
+            while (programb)
+            {
+                cout << "Bienvenido al area de productos" << endl;
+                cout << "1. Registrar Producto" << endl;
+                cout << "2. Buscar Producto" << endl;
+                cout << "3. Modificar Producto Cliente" << endl;
+                cout << "4. Registrar Presentacion" << endl;
+                cout << "5. Salir al menu principal" << endl;
+                cout << "Que funcion quiere usar: ";
+                cin >> opc;
+                switch (opc) {
+                case 1:
+                    if (role == 4 || role == 2)
+                    {
+                        PruebaProductos.registrarproducto();
+                    }
+                    else
+                    {
+                        cout << "Acceso denegado, no tiene permiso para ver esta función" << endl;
+                    }
+                    break;
+                case 2:
+                    if (role == 4 || role == 2)
+                    {
+                        //Placeholder
+                    }
+                    else
+                    {
+                        cout << "Acceso denegado, no tiene permiso para ver esta función" << endl;
+                    }
+                    break;
+                case 3:
+                    if (role == 4 || role == 2)
+                    {
+                        /*PruebaProductos.modificarproducto();*/
+                    }
+                    else
+                    {
+                        cout << "Acceso denegado, no tiene permiso para ver esta función" << endl;
+                    }
+                    break;
+                case 4:
+                    if (role == 4 || role == 2)
+                    {
+                        PruebaPresentacion.registrarpresentacion();
+                    }
+                    else
+                    {
+                        cout << "Acceso denegado, no tiene permiso para ver esta función" << endl;
+                    }
+                    break;
+                case 5:
+                    cout << "Regresando al menu principal" << endl;
+                    programb = false;
+                    break;
+                default:
+                    cout << "Opcion no valida. Por favor, intente nuevamente." << endl;
+                    break;
+                }
+            }
         default:
             cout << "Opcion no valida. Por favor, intente nuevamente." << endl;
             break;
@@ -134,7 +300,7 @@ int main()
     //		break;
     //	}
     //}
-   
+
 }
 void ReporteUsuarios(vector<string> a, vector<string> b)
 {
