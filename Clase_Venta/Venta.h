@@ -31,6 +31,7 @@ public:
 	void registrarVenta();
 	void archivoVenta();
 	void leerVentas();
+	void verventas();
 
 	void clearventas();
 
@@ -43,6 +44,7 @@ protected:
 	int idEmpleado;
 	float total_amount;
 	string date_time;
+
 
 	struct infoVenta {
 		int id;
@@ -59,5 +61,4 @@ protected:
 	vector<infoVenta> VectorVentas;
 };
 
-
-
+#pragma once

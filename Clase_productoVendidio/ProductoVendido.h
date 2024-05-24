@@ -8,12 +8,16 @@ public:
 	ProductoVendido();
 	~ProductoVendido();
 	int getId();
+
 	void setIdSale(int id);
 	int getIdSale();
+
 	void setIdProduct(int id);
 	int getIdProduct();
+
 	void setQuantity(int q);
 	int getQuantity();
+
 	void setSalePricePerUnit(float price);
 	float getSalePricePerUnit();
 
