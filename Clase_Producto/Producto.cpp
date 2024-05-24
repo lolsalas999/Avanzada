@@ -258,7 +258,7 @@ void Productos::leerproductos()
     }
 }
 
-vector<string> Productos::buscarproducto(string search)
+vector<string> Productos::buscarproducto()
 {
     vector<string> resultado;
     string file_name = "Productos.csv";
@@ -266,6 +266,9 @@ vector<string> Productos::buscarproducto(string search)
     SaveFile.open(file_name);
     bool found = false;
     string field1, field2, field3, field4, field5, field6, field7, field8;
+    string search;
+	cout << "Ingrese el UPC del producto a buscar: ";
+	cin >> search;
     while (getline(SaveFile, field1, ',') && !found)
     {
         getline(SaveFile, field2, ',');
@@ -291,12 +294,15 @@ vector<string> Productos::buscarproducto(string search)
     return resultado;
 }
 
-void Productos::modificarproducto(string search)
+void Productos::modificarproducto()
 {
     string file_name = "Productos.csv";
     int line_number = 0;
     fstream read_file;
     read_file.open(file_name);
+    string search;
+	cout << "Ingrese el UPC del producto a modificar: ";
+	cin >> search;
     if (read_file.fail()) {
         cout << "Error abrir el archivo" << endl;
     }

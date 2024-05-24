@@ -44,8 +44,8 @@ public:
 	void archivoproductos();
 	void leerproductos();
 
-	vector<string> buscarproducto(string);
-	void modificarproducto(string);
+	vector<string> buscarproducto();
+	void modificarproducto();
 
 	void ClearProductos();
 
