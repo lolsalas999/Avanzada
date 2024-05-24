@@ -43,6 +43,8 @@ public:
     bool IniciarSesion(string& useractual, int& rol);
 
 private:
+    string encriptar(string& password);
+    string desencriptar(string& password);
 protected:
 
     struct UsuariosRegistrados
