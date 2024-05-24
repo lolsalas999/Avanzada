@@ -133,6 +133,20 @@ void Presentacion::clearpresentacion()
 	vectorpresentacionl.clear();
 }
 
+bool Presentacion::checkvectorpresentacion()
+{
+	clearpresentacion();
+	leerarchivopresentacion();
+	if (vectorpresentacionl.size() == 0)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
 string Presentacion::ModificaLinea(string cadena, int elemento, PresentacionProduct& temporal)
 {
 	size_t pos = cadena.find(",");

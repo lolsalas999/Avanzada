@@ -18,6 +18,7 @@ int main()
     int opc = 0;
     int role = 0;
     string useractual;
+    bool check = false;
 
     while (program) {
         program = PruebaUsuario.CallLogin(useractual, role);
@@ -59,12 +60,30 @@ int main()
                     PruebaUsuario.RegistrarUsuario(role, useractual);
                     break;
                 case 2:
+                    check = PruebaUsuario.checkvectoruser();
+                    if (check == false)
+                    {
+                        cout << "Por favor registra a un usuario antes" << endl;
+                        break;
+                    }
                     PruebaUsuario.EditarUsuario(role, useractual);
                     break;
                 case 3:
+                    check = PruebaUsuario.checkvectoruser();
+                    if (check == false)
+                    {
+                        cout << "Por favor registra a un usuario antes" << endl;
+                        break;
+                    }
                     PruebaUsuario.VerUsuarios();
                     break;
                 case 4:
+                    check = PruebaUsuario.checkvectoruser();
+                    if (check == false)
+                    {
+                        cout << "Por favor registra a un usuario antes" << endl;
+                        break;
+                    }
                     PruebaUsuario.EliminarUsuarios(role, useractual);
                     break;
                 case 5:
@@ -90,6 +109,8 @@ int main()
                 cin >> opc;
                 switch (opc) {
                 case 1:
+
+
                     if (role == 4 || role == 2)
                     {
                         Pruebas.RegisterCliente();
@@ -100,6 +121,12 @@ int main()
                     }
                     break;
                 case 2:
+                    check = Pruebas.checkvectorclientes();
+                    if (check == false)
+                    {
+                        cout << "Primero registre un cliente para poder usar esta función" << endl;
+                        break;
+                    }
                     if (role == 4 || role == 2)
                     {
                         Pruebas.EditCliente();
@@ -110,6 +137,12 @@ int main()
                     }
                     break;
                 case 3:
+                    check = Pruebas.checkvectorclientes();
+                    if (check == false)
+                    {
+                        cout << "Primero registre un cliente para poder usar esta función" << endl;
+                        break;
+                    }
                     if (role == 4 || role == 2)
                     {
                         Pruebas.BorrarCliente();
@@ -120,6 +153,12 @@ int main()
                     }
                     break;
                 case 4:
+                    check = Pruebas.checkvectorclientes();
+                    if (check == false)
+                    {
+                        cout << "Primero registre un cliente para poder usar esta función" << endl;
+                        break;
+                    }
                     if (role == 4 || role == 2)
                     {
                         Pruebas.BusquedaCliente();
@@ -191,6 +230,13 @@ int main()
                 cin >> opc;
                 switch (opc) {
                 case 1:
+                    check = PruebaPresentacion.checkvectorpresentacion();
+                    if (check == false)
+                    {
+                        cout << "Necesitas registrar una presentacion para poder registrar un producto" << endl;
+                        break;
+                    }
+
                     if (role == 4 || role == 2)
                     {
                         PruebaProductos.registrarproducto();
@@ -201,6 +247,12 @@ int main()
                     }
                     break;
                 case 2:
+                    check = PruebaProductos.checkvectorproductos();
+                    if (check == false)
+                    {
+                        cout << "Necesitas al menos un producto registrado" << endl;
+                    }
+
                     if (role == 4 || role == 2)
                     {
                         //Placeholder
@@ -211,6 +263,12 @@ int main()
                     }
                     break;
                 case 3:
+                    check = PruebaProductos.checkvectorproductos();
+                    if (check == false)
+                    {
+                        cout << "Necesitas al menos un producto registrado" << endl;
+                        break;
+                    }
                     if (role == 4 || role == 2)
                     {
                         /*PruebaProductos.modificarproducto();*/

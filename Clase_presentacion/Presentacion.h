@@ -22,6 +22,7 @@ public:
 	void archivopresentacion();
 	void leerarchivopresentacion();
 	void clearpresentacion();
+	bool checkvectorpresentacion();
 
 
 private:

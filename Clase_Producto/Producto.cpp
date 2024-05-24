@@ -420,6 +420,20 @@ void Productos::ClearProductos()
     VectorProductos.clear();
 }
 
+bool Productos::checkvectorproductos()
+{
+    ClearProductos();
+    leerproductos();
+    if (VectorProductos.size() == 0)
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+
+}
 string Productos::ModificaLinea(string cadena, int elemento, infoProducto& temporal)
 {
     size_t pos = cadena.find(",");
@@ -467,4 +481,5 @@ string Productos::ModificaLinea(string cadena, int elemento, infoProducto& tempo
         cerr << "Error al convertir el valor '" << value << "' en el campo " << elemento << ": " << e.what() << endl;
     }
     return cadena;
+
 }

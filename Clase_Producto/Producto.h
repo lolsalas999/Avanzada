@@ -10,7 +10,7 @@
 
 using namespace std;
 
-class Productos : public Presentacion
+class Productos : public	Presentacion
 {
 public:
 	Productos();
@@ -47,6 +47,7 @@ public:
 	vector<string> buscarproducto();
 	void modificarproducto();
 
+	bool checkvectorproductos();
 	void ClearProductos();
 
 
@@ -67,3 +68,4 @@ protected:
 	string ModificaLinea(string, int, infoProducto&);
 	vector<infoProducto> VectorProductos;
 };
+

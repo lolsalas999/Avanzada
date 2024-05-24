@@ -62,12 +62,12 @@ string usuario::getusuario()
 
 void usuario::setpassword(string e)
 {
-	ObjetoUsuarios.password = encriptar(e);
+	ObjetoUsuarios.password = e;
 }
 
 string usuario::getpassword()
 {
-	return desencriptar(ObjetoUsuarios.password);
+	return ObjetoUsuarios.password;
 }
 
 void usuario::setrol(int f)
@@ -141,7 +141,7 @@ void usuario::RegistrarUsuario(int& rol, string& useractual)
 		setnombre(nombre);
 		setapellido(apellido);
 		setusuario(usuario);
-		setpassword(password); // Se encripta aquí
+		setpassword(password);
 		setrol(rol);
 		setid();
 		ObjetoUsuarios.date = getDateTime();
@@ -519,7 +519,7 @@ bool usuario::IniciarSesion(string& useractual, int& rol)
 		cin >> password;
 
 		for (size_t i = 0; i < VectorUsuarios.size(); ++i) {
-			if (VectorUsuarios[i].usuario == username && desencriptar(VectorUsuarios[i].password) == password) {
+			if (VectorUsuarios[i].usuario == username && VectorUsuarios[i].password == password) {
 				useractual = VectorUsuarios[i].usuario;
 				rol = VectorUsuarios[i].rol;
 				cout << "----------------------------------------" << endl;
@@ -544,6 +544,20 @@ bool usuario::IniciarSesion(string& useractual, int& rol)
 
 	cout << "Demasiados intentos fallidos. El programa se cerrara por seguridad." << endl;
 	return false;
+}
+
+bool usuario::checkvectoruser()
+{
+	UsuarioClear();
+	LeerArchivoUsuario();
+	if (VectorUsuarios.size() == 0)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
 }
 
 bool usuario::AdministradorExiste()
@@ -628,24 +642,6 @@ bool usuario::CallLogin(string& useractual, int& rol)
 
 	return IniciarSesion(useractual, rol);
 }
-
-
-string usuario::encriptar(string& password) {
-	string encriptado = password;
-	for (size_t i = 0; i < encriptado.size(); ++i) {
-		encriptado[i] += 3;
-	}
-	return encriptado;
-}
-
-string usuario::desencriptar(string& password) {
-	string desencriptado = password;
-	for (size_t i = 0; i < desencriptado.size(); ++i) {
-		desencriptado[i] -= 3;
-	}
-	return desencriptado;
-}
-
 
 string usuario::ModificaLinea(string cadena, int elemento, UsuariosRegistrados& temporal)
 {

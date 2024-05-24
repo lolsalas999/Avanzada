@@ -1141,6 +1141,21 @@ void Cliente::RegistrarReporteCliente(string usuario, string accion)
 	}
 }
 
+bool Cliente::checkvectorclientes()
+{
+	Clear();
+	ReadArchiveCliente();
+	if (VectorClientes.size() == 0)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+
+}
+
 string Cliente::ModificaLinea(string cadena, int elemento, Clientes& temporal)
 {
 	size_t pos = cadena.find(",");

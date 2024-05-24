@@ -41,10 +41,9 @@ public:
     void EditarUsuario(int& rol, string& useractual);
     void EliminarUsuarios(int& rol, string& useractual);
     bool IniciarSesion(string& useractual, int& rol);
+    bool checkvectoruser();
 
 private:
-    string encriptar(string& password);
-    string desencriptar(string& password);
 protected:
 
     struct UsuariosRegistrados
