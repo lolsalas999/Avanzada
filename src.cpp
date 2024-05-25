@@ -302,63 +302,6 @@ int main()
             break;
         }
     }
-
-
-    //	cout << "1. Register Cliente" << endl;
-    //	cout << "2. Edit Cliente" << endl;
-    //	cout << "3.Busqueda Cliente" << endl;
-    //	cout << "4. Eliminar Cliente" << endl;
-    //	cout << "5. Registrar Producto" << endl;
-    //	cout << "6. Realizar Venta" << endl;
-    //	cout << "7. Registrar Presentacion" << endl;
-    //	cout << "8. Terminar" << endl;
-    //	cout << "Digite su opcion deseada: ";
-    //	while (fail)
-    //	{
-    //		cin >> opc;
-    //		if (cin.fail()) 
-    //		{
-    //			cout << "Error! Por favor no ingrese una letra!" << endl;
-    //			cin.clear();
-    //			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    //		}
-    //		else 
-    //		{
-    //			fail = false;
-    //		}
-    //	}
-    //	switch (opc)
-    //	{
-    //	case 1:
-    //		Pruebas.RegisterCliente();
-    //		break;
-    //	case 2:
-    //		Pruebas.EditCliente();
-    //		break;
-    //	case 3:
-    //		Pruebas.BusquedaCliente();
-    //		break;
-    //	case 4:
-    //		Pruebas.BorrarCliente();
-    //		break;
-    //	case 5:
-    //		PruebaProductos.registrarproducto();
-    //		break;
-    //	case 6:
-    //		PruebaVenta.registrarVenta();
-    //		break;
-    //	case 7:
-    //		PruebaPresentacion.registrarpresentacion();
-    //		break;
-    //	case 8:
-    //		program = false;
-    //		break;
-    //	default:
-    //		cout << "Ingrese una opcion valida" << endl;
-    //		break;
-    //	}
-    //}
-
 }
 void ReporteUsuarios(vector<string> a, vector<string> b)
 {

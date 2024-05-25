@@ -44,6 +44,8 @@ public:
     bool checkvectoruser();
 
 private:
+    string encriptar(string& password);
+    string desencriptar(string& password);
 protected:
 
     struct UsuariosRegistrados

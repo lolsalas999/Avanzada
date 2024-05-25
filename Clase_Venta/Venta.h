@@ -60,5 +60,3 @@ protected:
 	string ModificaLinea(string, int, infoVenta&);
 	vector<infoVenta> VectorVentas;
 };
-
-#pragma once
