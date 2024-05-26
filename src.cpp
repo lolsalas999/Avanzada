@@ -20,6 +20,8 @@ int main()
     int role = 0;
     string useractual;
     bool check = false;
+    vector<string>vectoru;
+    vector<string>acciones;
 
     //Solo se realiza un inicio de sesión al principio 
     program = PruebaUsuario.CallLogin(useractual, role);
@@ -45,7 +47,8 @@ int main()
         cout << "2. Acceso a Clientes" << endl;
         cout << "3. Acceso a Ventas" << endl;
         cout << "4. Acceso a Productos" << endl;
-        cout << "5. Salir" << endl;
+        cout << "5. Ver movimentos" << endl;
+        cout << "6. Salir" << endl;
         cout << "A que seccion quiere ingresar: ";
         cin >> opc;
         switch (opc) {
@@ -64,6 +67,8 @@ int main()
                 switch (opc) {
                 case 1:
                     PruebaUsuario.RegistrarUsuario(role, useractual);
+                    vectoru.push_back(useractual);
+                    acciones.push_back("registro un usuario");
                     break;
                 case 2:
                     check = PruebaUsuario.checkvectoruser();
@@ -73,6 +78,8 @@ int main()
                         break;
                     }
                     PruebaUsuario.EditarUsuario(role, useractual);
+                    vectoru.push_back(useractual);
+                    acciones.push_back("edito un usuario");
                     break;
                 case 3:
                     check = PruebaUsuario.checkvectoruser();
@@ -81,7 +88,10 @@ int main()
                         cout << "Por favor registra a un usuario antes" << endl;
                         break;
                     }
+                    
                     PruebaUsuario.VerUsuarios();
+                    vectoru.push_back(useractual);
+                    acciones.push_back("vio un usuario");
                     break;
                 case 4:
                     check = PruebaUsuario.checkvectoruser();
@@ -91,6 +101,8 @@ int main()
                         break;
                     }
                     PruebaUsuario.EliminarUsuarios(role, useractual);
+                    vectoru.push_back(useractual);
+                    acciones.push_back("elmino un usuario");
                     break;
                 case 5:
                     cout << "Regresando al menu principal" << endl;
@@ -119,6 +131,8 @@ int main()
                     if (role == 4 || role == 2)
                     {
                         Pruebas.RegisterCliente();
+                        vectoru.push_back(useractual);
+                        acciones.push_back("registro un cliente");
                     }
                     else
                     {
@@ -135,6 +149,8 @@ int main()
                     if (role == 4 || role == 2)
                     {
                         Pruebas.EditCliente();
+                        vectoru.push_back(useractual);
+                        acciones.push_back("edito un cliente");
                     }
                     else
                     {
@@ -151,6 +167,8 @@ int main()
                     if (role == 4 || role == 2)
                     {
                         Pruebas.BorrarCliente();
+                        vectoru.push_back(useractual);
+                        acciones.push_back("borro un cliente");
                     }
                     else
                     {
@@ -170,6 +188,8 @@ int main()
                         cout << "Presione cualquier tecla para regresar al menu de clientes..." << endl;
                         cin.ignore();
                         cin.get();
+                        vectoru.push_back(useractual);
+                        acciones.push_back("busco un cliente");
                     }
                     else
                     {
@@ -201,6 +221,8 @@ int main()
                     if (role == 4 || role == 1)
                     {
                         PruebaVenta.registrarVenta();
+                        vectoru.push_back(useractual);
+                        acciones.push_back("realizo una venta");
                     }
                     else
                     {
@@ -211,6 +233,9 @@ int main()
                     if (role == 4 || role == 1)
                     {
                         PruebaVenta.verventas();
+                        vectoru.push_back(useractual);
+                        acciones.push_back("vio las ventas");
+
                     }
                     else
                     {
@@ -251,6 +276,8 @@ int main()
                     if (role == 4 || role == 2)
                     {
                         PruebaProductos.registrarproducto();
+                        vectoru.push_back(useractual);
+                        acciones.push_back("registro un producto");
                     }
                     else
                     {
@@ -268,6 +295,8 @@ int main()
                     if (role == 4 || role == 2)
                     {
                         PruebaProductos.buscarproducto();
+                        vectoru.push_back(useractual);
+                        acciones.push_back("busco un producto");
                     }
                     else
                     {
@@ -284,6 +313,8 @@ int main()
                     if (role == 4 || role == 2)
                     {
                         PruebaProductos.modificarproducto();
+                        vectoru.push_back(useractual);
+                        acciones.push_back("modifico un producto");
                     }
                     else
                     {
@@ -294,6 +325,8 @@ int main()
                     if (role == 4 || role == 2)
                     {
                         PruebaPresentacion.registrarpresentacion();
+                        vectoru.push_back(useractual);
+                        acciones.push_back("registro una presentacion");
                     }
                     else
                     {
@@ -311,6 +344,16 @@ int main()
             }
             break;
         case 5:
+            if (role == 4)
+            {
+                ReporteUsuarios(vectoru, acciones);
+            }
+            else 
+            {
+                cout << "No tiene permiso para usar esta función";
+            }
+            break;
+        case 6:
             cout << "Saliendo del programa..." << endl;
             return 0;
         default:
@@ -318,6 +361,7 @@ int main()
             break;
         }
     } while (program);
+
 
     return 0;
 }
