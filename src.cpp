@@ -309,6 +309,16 @@ int main()
                     {
                         vectoru.push_back(useractual);
                         acciones.push_back("busco un producto");
+						vector<string> busqueda = PruebaProductos.buscarproducto();
+						cout << "=====Producto=====" << endl;
+						cout << "ID: " << busqueda[0] << endl;
+						cout << "UPC: " << busqueda[1] << endl;
+						cout << "Nombre: " << busqueda[2] << endl;
+						cout << "ID Presentacion: " << busqueda[3] << endl;
+						cout << "Precio: " << busqueda[4] << endl;
+						cout << "Costo: " << busqueda[5] << endl;
+						cout << "IVA: " << busqueda[6] << endl;
+						cout << "Stock: " << busqueda[7] << endl;
                     }
                     else
                     {
@@ -326,6 +336,7 @@ int main()
                     {
                         vectoru.push_back(useractual);
                         acciones.push_back("modifico un producto");
+						PruebaProductos.modificarproducto();
                     }
                     else
                     {
