@@ -1,6 +1,7 @@
 #include "cliente.h"
 #include "usuarios.h"
 #include "Venta.h"
+#include "reporte_inventario.h"
 
 using namespace std;
 
@@ -14,6 +15,7 @@ int main()
     Venta PruebaVenta;
     Presentacion PruebaPresentacion;
     usuario PruebaUsuario;
+    ReporteInventario PruebaReporte;
     bool program = true;
     bool programb = true;
     int opc = 0;
@@ -88,7 +90,7 @@ int main()
                         cout << "Por favor registra a un usuario antes" << endl;
                         break;
                     }
-                    
+
                     PruebaUsuario.VerUsuarios();
                     vectoru.push_back(useractual);
                     acciones.push_back("vio un usuario");
@@ -213,7 +215,8 @@ int main()
                 cout << "Bienvenido al area de ventas" << endl;
                 cout << "1. Registrar Venta" << endl;
                 cout << "2. Ver Venta" << endl;
-                cout << "3. Salir al menu principal" << endl;
+                cout << "3. Reporte Productos Vendidos" << endl;
+                cout << "4. Salir al menu principal" << endl;
                 cout << "Que funcion quiere usar: ";
                 cin >> opc;
                 switch (opc) {
@@ -243,6 +246,15 @@ int main()
                     }
                     break;
                 case 3:
+                    if (role == 4 || role == 1)
+                    {
+                        PruebaReporte.GenerarReporteMovimiento();
+                        cout << "Presione Enter para continuar" << endl;
+                        cin.ignore();
+                        cin.get();
+                    }
+                    break;
+                case 4:
                     cout << "Regresando al menu principal" << endl;
                     programb = false;
                     break;
@@ -261,7 +273,8 @@ int main()
                 cout << "2. Buscar Producto" << endl;
                 cout << "3. Modificar Producto Cliente" << endl;
                 cout << "4. Registrar Presentacion" << endl;
-                cout << "5. Salir al menu principal" << endl;
+                cout << "5. Ver Inventario" << endl;
+                cout << "6. Salir al menu principal" << endl;
                 cout << "Que funcion quiere usar: ";
                 cin >> opc;
                 switch (opc) {
@@ -294,7 +307,6 @@ int main()
 
                     if (role == 4 || role == 2)
                     {
-                        PruebaProductos.buscarproducto();
                         vectoru.push_back(useractual);
                         acciones.push_back("busco un producto");
                     }
@@ -312,7 +324,6 @@ int main()
                     }
                     if (role == 4 || role == 2)
                     {
-                        PruebaProductos.modificarproducto();
                         vectoru.push_back(useractual);
                         acciones.push_back("modifico un producto");
                     }
@@ -334,6 +345,19 @@ int main()
                     }
                     break;
                 case 5:
+                    if (role == 4 || role == 2)
+                    {
+                        PruebaReporte.GenerarReporteInventario();
+                        cout << "Presione Enter para continuar" << endl;
+                        cin.ignore();
+                        cin.get();
+                    }
+                    else
+                    {
+                        cout << "Usted no tiene permiso para usar esta función" << endl;
+                    }
+                    break;
+                case 6:
                     cout << "Regresando al menu principal" << endl;
                     programb = false;
                     break;
@@ -347,8 +371,11 @@ int main()
             if (role == 4)
             {
                 ReporteUsuarios(vectoru, acciones);
+                cout << "Presione enter para continuar" << endl;
+                cin.ignore();
+                cin.get();
             }
-            else 
+            else
             {
                 cout << "No tiene permiso para usar esta función";
             }
