@@ -94,7 +94,7 @@ string Venta::getDateTime()
 
 void Venta::registrarVenta()
 {
-    Clear();
+    LimpiarPantalla();
     ClearProductos();
     clearventas();
     VectorUsuarios.clear();
@@ -106,7 +106,6 @@ void Venta::registrarVenta()
     bool program = true;
     bool found = false;
     bool notfound = false;
-    cout << VectorVentas.size() << endl;
     if (VectorVentas.size() == 0)
     {
         venta.id = 1;
@@ -123,11 +122,11 @@ void Venta::registrarVenta()
         {
             cout << "Ingrese el id del cliente: ";
             cin >> idCliente;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             for (int i = 0; i < VectorClientes.size(); i++)
             {
                 if (VectorClientes[i].id == idCliente)
                 {
-                    cout << "ok" << endl;
                     found = true;
                 }
                 else {
@@ -155,16 +154,15 @@ void Venta::registrarVenta()
         {
             cout << "Ingrese el id del Empleado: ";
             cin >> idEmpleado;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             for (int i = 0; i < VectorUsuarios.size(); i++)
             {
-                cout << VectorUsuarios[i].id << endl;
                 if (VectorUsuarios[i].id == idEmpleado)
                 {
                     found = true;
                 }
                 else
                 {
-
                     notfound = true;
                 }
                 if (found == true)
@@ -177,8 +175,6 @@ void Venta::registrarVenta()
                 }
             }
         }
-
-
 
         setIdEmpleado(idEmpleado);
 
@@ -193,6 +189,7 @@ void Venta::registrarVenta()
         {
             cout << "Ingrese el id del producto a comprar: ";
             cin >> idsearch;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             for (int i = 0; i < VectorProductos.size(); i++)
             {
                 if (VectorProductos[i].id == idsearch)
@@ -229,7 +226,7 @@ void Venta::registrarVenta()
         {
             cout << "Ingrese la cantidad de productos que desea comprar: ";
             cin >> cant;
-
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
             if (VectorProductos[nameindex].stock < cant || cant <= 0)
             {
@@ -327,6 +324,7 @@ void Venta::archivoVenta()
 
 void Venta::leerVentas()
 {
+    VectorVentas.clear();
     try
     {
         ifstream SaveFile;
@@ -372,24 +370,11 @@ void Venta::leerVentas()
         venta.date = VectorVentas[i].date;
 
     }
-    //Para probar si está leyendo el archivo correctamente, implemento este ciclo for.
-    for (int i = 0; i < VectorVentas.size(); i++)
-    {
-        cout << "ID: " << VectorVentas[i].id
-            << ", ID Cliente: " << VectorVentas[i].id_Cliente
-            << ", ID Empleado: " << VectorVentas[i].id_Empleado
-            << ", ID producto: " << VectorVentas[i].idproducto
-            << ", Cantidada: " << VectorVentas[i].cant
-            << ", Precio por unidad: " << VectorVentas[i].ppu
-            << ", Total: " << VectorVentas[i].total
-            << ", Fecha: " << VectorVentas[i].date << endl;
-
-    }
 }
 
 void Venta::verventas()
 {
-    clearventas();
+    leerVentas();
     cout << "Estas son las ventas registradas" << endl;
     for (int i = 0; i < VectorVentas.size(); i++)
     {
@@ -403,6 +388,14 @@ void Venta::verventas()
             << ", Fecha: " << VectorVentas[i].date << "\n" << endl;
 
     }
+    cout << "Presione cualquier tecla para regresar al menu de ventas..." << endl;
+    cin.ignore();
+    cin.get();
+}
+
+void Venta::LimpiarPantalla()
+{
+    system("cls");
 }
 
 void Venta::clearventas()

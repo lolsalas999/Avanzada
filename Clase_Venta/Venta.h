@@ -32,6 +32,7 @@ public:
 	void archivoVenta();
 	void leerVentas();
 	void verventas();
+	void LimpiarPantalla();
 
 	void clearventas();
 
