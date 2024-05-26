@@ -56,6 +56,7 @@ public:
 	void CrearReporteArchivo();
 	void RegistrarReporteCliente(string, string);
 	bool checkvectorclientes();
+	void LimpiarPantalla();
 
 private:
 protected:

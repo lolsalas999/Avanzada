@@ -23,6 +23,7 @@ public:
 	void leerarchivopresentacion();
 	void clearpresentacion();
 	bool checkvectorpresentacion();
+	void LimpiarPantalla();
 
 
 private:

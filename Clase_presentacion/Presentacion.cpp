@@ -44,9 +44,11 @@ void Presentacion::registrarpresentacion()
 	}
 	string name;
 	cout << "Deme el nombre de la presentación del producto a registrar: ";
-	cin >> name;
+	cin.ignore();
+	getline(cin, name);
 	setid(id);
 	setname(name);
+	LimpiarPantalla();
 	ofstream SaveFile;
 	try
 	{
@@ -120,9 +122,8 @@ void Presentacion::leerarchivopresentacion()
 		cerr << "Ocurrio un error al leer el archivo" << e.what() << endl;
 	}
 	//Las desempaqueta para poder usar las variables mas facil
-	for (int i = 0; i < (VectorClientes.size()); i++)
+	for (int i = 0; i < (vectorpresentacionl.size()); i++)
 	{
-		cout << "ok" << endl;
 		PresentacionP.id = vectorpresentacionl[i].id;
 		PresentacionP.name = vectorpresentacionl[i].name;
 	}
@@ -145,6 +146,11 @@ bool Presentacion::checkvectorpresentacion()
 	{
 		return true;
 	}
+}
+
+void Presentacion::LimpiarPantalla()
+{
+	system("cls");
 }
 
 string Presentacion::ModificaLinea(string cadena, int elemento, PresentacionProduct& temporal)

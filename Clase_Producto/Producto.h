@@ -50,6 +50,8 @@ public:
 	bool checkvectorproductos();
 	void ClearProductos();
 
+	void LimpiarPantalla();
+
 
 private:
 protected:

@@ -93,13 +93,14 @@ void usuario::RegistrarUsuario(int& rol, string& useractual)
 		int rol;
 
 		cout << "Dame el Nombre del Empleado a registrar: ";
-		cin >> nombre;
+		cin.ignore();
+		getline(cin, nombre);
 		cout << "Deme el apellido del Empleado a registrar: ";
-		cin >> apellido;
+		getline(cin, apellido);
 		cout << "Deme el username del Empleado a registrar: ";
-		cin >> usuario;
+		getline(cin, usuario);
 		cout << "Deme el password del Empleado a registrar: ";
-		cin >> password;
+		getline(cin, password);
 
 		while (program)
 		{
@@ -141,7 +142,7 @@ void usuario::RegistrarUsuario(int& rol, string& useractual)
 		setnombre(nombre);
 		setapellido(apellido);
 		setusuario(usuario);
-		setpassword(password); // Se encripta aquí
+		setpassword(password);
 		setrol(rol);
 		setid();
 		ObjetoUsuarios.date = getDateTime();
@@ -160,13 +161,14 @@ void usuario::RegistrarUsuario(int& rol, string& useractual)
 		catch (const std::exception& e) {
 			cerr << "Ocurrio un error al escribir en usuarios.csv: " << e.what() << endl;
 		}
-
 		char respuesta;
 		cout << "Desea realizar otra accion de registro (R) o regresar al menu de gestión (M)? (R/M): ";
 		cin >> respuesta;
 		if (respuesta == 'M' || respuesta == 'm') {
+			LimpiarPantalla();
 			return;
 		}
+		LimpiarPantalla();
 	} while (true);
 }
 
@@ -209,6 +211,7 @@ void usuario::EditarUsuario(int& rol, string& useractual)
 			cout << "5. Rol" << endl;
 			cout << "Seleccione el campo que desea editar: ";
 			cin >> opc;
+			cin.ignore();
 
 			string nuevoValor;
 			int nuevoValorInt;
@@ -216,22 +219,22 @@ void usuario::EditarUsuario(int& rol, string& useractual)
 			switch (opc) {
 			case 1:
 				cout << "Ingrese el nuevo nombre: ";
-				cin >> nuevoValor;
+				getline(cin, nuevoValor);
 				VectorUsuarios[indice].nombre = nuevoValor;
 				break;
 			case 2:
 				cout << "Ingrese el nuevo apellido: ";
-				cin >> nuevoValor;
+				getline(cin, nuevoValor);
 				VectorUsuarios[indice].apellido = nuevoValor;
 				break;
 			case 3:
 				cout << "Ingrese el nuevo nombre de usuario: ";
-				cin >> nuevoValor;
+				getline(cin, nuevoValor);
 				VectorUsuarios[indice].usuario = nuevoValor;
 				break;
 			case 4:
 				cout << "Ingrese la nueva contrasena: ";
-				cin >> nuevoValor;
+				getline(cin, nuevoValor);
 				VectorUsuarios[indice].password = nuevoValor;
 				break;
 			case 5:
@@ -254,13 +257,14 @@ void usuario::EditarUsuario(int& rol, string& useractual)
 		catch (const std::exception& e) {
 			cerr << "Error al editar usuario: " << e.what() << endl;
 		}
-
 		char respuesta;
 		cout << "Desea realizar otra accion de edición (E) o regresar al menu de gestion (M)? (E/M): ";
 		cin >> respuesta;
 		if (respuesta == 'M' || respuesta == 'm') {
+			LimpiarPantalla();
 			return;
 		}
+		LimpiarPantalla();
 	} while (true);
 }
 
@@ -365,13 +369,14 @@ void usuario::VerUsuarios()
 		catch (const std::exception& e) {
 			cerr << "Error al ver usuarios: " << e.what() << endl;
 		}
-
 		char respuesta;
 		cout << "Desea realizar otra acción de visualizacion (V) o regresar al menu de gestion (M)? (V/M): ";
 		cin >> respuesta;
 		if (respuesta == 'M' || respuesta == 'm') {
+			LimpiarPantalla();
 			return;
 		}
+		LimpiarPantalla();
 	} while (true);
 }
 
@@ -427,13 +432,14 @@ void usuario::EliminarUsuarios(int& rol, string& useractual)
 		catch (const std::exception& e) {
 			cerr << "Error al eliminar usuario: " << e.what() << endl;
 		}
-
 		char respuesta;
 		cout << "Desea realizar otra acción de eliminación (L) o regresar al menu de gestión (M)? (L/M): ";
 		cin >> respuesta;
 		if (respuesta == 'M' || respuesta == 'm') {
+			LimpiarPantalla();
 			return;
 		}
+		LimpiarPantalla();
 	} while (true);
 }
 

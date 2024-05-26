@@ -87,7 +87,6 @@ bool Productos::gethas_iva()
     return Producto.has_iva;
 }
 
-
 void Productos::setstock(int h)
 {
     Producto.stock = h;
@@ -102,62 +101,99 @@ void Productos::registrarproducto()
 {
     vectorpresentacionl.clear();
     leerarchivopresentacion();
-    bool program = true;
     char seguir = 's';
     do {
+        LimpiarPantalla();
         cout << "\n==================== Registro de Producto ====================\n";
         Producto.id = Producto.id += 1;
 
         string upc;
         cout << "Ingrese el UPC del producto: ";
-        cin >> upc;
+        cin.ignore();
+        getline(cin, upc);
         setupc(upc);
 
         string name;
         cout << "Ingrese el nombre del producto: ";
-        cin >> name;
+        getline(cin, name);
         setname(name);
 
-        int id_presentacion;
-        while (program)
-        {
-            cout << vectorpresentacionl.size() << endl;
-            cout << "Ingrese el ID de la presentacion asociada: ";
-            cin >> id_presentacion;
-            for (int i = 0; i < vectorpresentacionl.size(); i++)
-            {
-
-                if (vectorpresentacionl[i].id == id_presentacion)
-                {
-                    program = false;
-                }
-                else
-                {
-                    cout << "Por favor ingrese un id existente de presentacion" << endl;
-                }
-            }
+        // Mostrar presentaciones disponibles
+        cout << "\nPresentaciones disponibles:\n";
+        for (const auto& presentacion : vectorpresentacionl) {
+            cout << "ID: " << presentacion.id << ", Nombre: " << presentacion.name << endl;
         }
 
+        int id_presentacion = 0;
+        bool id_presentacion_valido = false;
+        while (!id_presentacion_valido)
+        {
+            cout << "Ingrese el ID de la presentacion asociada: ";
+            cin >> id_presentacion;
+            if (cin.fail()) {
+                cout << "Por favor ingrese un número válido." << endl;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                continue;
+            }
+
+            for (const auto& presentacion : vectorpresentacionl)
+            {
+                if (presentacion.id == id_presentacion)
+                {
+                    id_presentacion_valido = true;
+                    break;
+                }
+            }
+            if (!id_presentacion_valido)
+            {
+                cout << "Por favor ingrese un id existente de presentacion" << endl;
+            }
+        }
         setid_presentacion(id_presentacion);
 
         float price;
         cout << "Ingrese el precio del producto: $";
         cin >> price;
+        while (cin.fail() || price < 0) {
+            cout << "Por favor ingrese un precio válido." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin >> price;
+        }
         setprice(price);
 
         float cost;
         cout << "Ingrese el costo de produccion del producto: $";
         cin >> cost;
+        while (cin.fail() || cost < 0) {
+            cout << "Por favor ingrese un costo válido." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin >> cost;
+        }
         setcost(cost);
 
         bool has_iva;
         cout << "El producto incluye IVA? (1 para si, 0 para no): ";
         cin >> has_iva;
+        while (cin.fail() || (has_iva != 0 && has_iva != 1)) {
+            cout << "Por favor ingrese 1 para sí o 0 para no." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin >> has_iva;
+        }
         sethas_iva(has_iva);
 
         int stock;
         cout << "Ingrese el stock del producto: ";
         cin >> stock;
+        while (cin.fail() || stock < 0) {
+            cout << "Por favor ingrese un stock válido." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin >> stock;
+        }
         setstock(stock);
 
         ofstream SaveFile("Productos.csv", fstream::app);
@@ -179,7 +215,6 @@ void Productos::registrarproducto()
 
 void Productos::archivoproductos()
 {
-
     ofstream SaveFile;
     try
     {
@@ -242,19 +277,6 @@ void Productos::leerproductos()
         Producto.cost = VectorProductos[i].cost;
         Producto.has_iva = VectorProductos[i].has_iva;
         Producto.stock = VectorProductos[i].stock;
-
-    }
-    //Para probar si está leyendo el archivo correctamente, implemento este ciclo for.
-    for (int i = 0; i < VectorProductos.size(); i++)
-    {
-        cout << "ID: " << VectorProductos[i].id
-            << ", UPC: " << VectorProductos[i].UPC
-            << ", Nombre: " << VectorProductos[i].name
-            << ", ID Presentacion: " << VectorProductos[i].id_presentacion
-            << ", Precio: " << VectorProductos[i].price
-            << ", Costo: " << VectorProductos[i].cost
-            << ", IVA: " << (VectorProductos[i].has_iva ? "Si" : "No")
-            << ", Stock: " << VectorProductos[i].stock << endl;
     }
 }
 
@@ -267,8 +289,8 @@ vector<string> Productos::buscarproducto()
     bool found = false;
     string field1, field2, field3, field4, field5, field6, field7, field8;
     string search;
-	cout << "Ingrese el UPC del producto a buscar: ";
-	cin >> search;
+    cout << "Ingrese el UPC del producto a buscar: ";
+    cin >> search;
     while (getline(SaveFile, field1, ',') && !found)
     {
         getline(SaveFile, field2, ',');
@@ -301,8 +323,9 @@ void Productos::modificarproducto()
     fstream read_file;
     read_file.open(file_name);
     string search;
-	cout << "Ingrese el UPC del producto a modificar: ";
-	cin >> search;
+    cout << "Ingrese el UPC del producto a modificar: ";
+    cin.ignore();
+    getline(cin, search);
     if (read_file.fail()) {
         cout << "Error abrir el archivo" << endl;
     }
@@ -345,6 +368,7 @@ void Productos::modificarproducto()
         if (found)
         {
             do {
+                LimpiarPantalla();
                 cout << endl;
                 cout << "==================== Modificar Producto ====================\n";
                 cout << "1. ID" << endl;
@@ -356,35 +380,36 @@ void Productos::modificarproducto()
                 cout << "7. Stock" << endl;
                 cout << "0. Quit" << endl;
                 cin >> choice;
+                cin.ignore();
                 switch (choice)
                 {
                 case 1:
                     cout << "Nuevo ID: ";
-                    cin >> resultado[0];
+                    getline(cin, resultado[0]);
                     break;
                 case 2:
                     cout << "Nuevo nombre: ";
-                    cin >> resultado[2];
+                    getline(cin, resultado[2]);
                     break;
                 case 3:
                     cout << "Nuevo ID Presentacion: ";
-                    cin >> resultado[3];
+                    getline(cin, resultado[3]);
                     break;
                 case 4:
                     cout << "Nuevo precio: ";
-                    cin >> resultado[4];
+                    getline(cin, resultado[4]);
                     break;
                 case 5:
                     cout << "Nuevo costo: ";
-                    cin >> resultado[5];
+                    getline(cin, resultado[5]);
                     break;
                 case 6:
                     cout << "IVA (1 para si, 0 para no): ";
-                    cin >> resultado[6];
+                    getline(cin, resultado[6]);
                     break;
                 case 7:
                     cout << "Nuevo stock: ";
-                    cin >> resultado[7];
+                    getline(cin, resultado[7]);
                     break;
                 default:
                     cout << "bye bye" << endl;
@@ -420,6 +445,11 @@ void Productos::ClearProductos()
     VectorProductos.clear();
 }
 
+void Productos::LimpiarPantalla()
+{
+    system("cls");
+}
+
 bool Productos::checkvectorproductos()
 {
     ClearProductos();
@@ -432,8 +462,8 @@ bool Productos::checkvectorproductos()
     {
         return true;
     }
-
 }
+
 string Productos::ModificaLinea(string cadena, int elemento, infoProducto& temporal)
 {
     size_t pos = cadena.find(",");
@@ -481,5 +511,4 @@ string Productos::ModificaLinea(string cadena, int elemento, infoProducto& tempo
         cerr << "Error al convertir el valor '" << value << "' en el campo " << elemento << ": " << e.what() << endl;
     }
     return cadena;
-
 }

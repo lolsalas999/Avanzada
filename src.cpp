@@ -1,10 +1,11 @@
-#include "cliente.h";
-#include "usuarios.h";
-#include "Venta.h";
+#include "cliente.h"
+#include "usuarios.h"
+#include "Venta.h"
 
 using namespace std;
 
-void ReporteUsuarios(vector<string> a, vector<string>b);
+void ReporteUsuarios(vector<string> a, vector<string> b);
+void Limpiarpantalla();
 
 int main()
 {
@@ -20,11 +21,13 @@ int main()
     string useractual;
     bool check = false;
 
-    while (program) {
-        program = PruebaUsuario.CallLogin(useractual, role);
-        if (!program) {
-            break;
-        }
+    //Solo se realiza un inicio de sesión al principio 
+    program = PruebaUsuario.CallLogin(useractual, role);
+    if (!program) {
+        return 0;
+    }
+
+    do {
         programb = true;
         Pruebas.Clear();
         PruebaProductos.ClearProductos();
@@ -36,17 +39,20 @@ int main()
         PruebaVenta.leerVentas();
         PruebaPresentacion.leerarchivopresentacion();
         PruebaUsuario.LeerArchivoUsuario();
+        Limpiarpantalla();
         cout << "------WALMAR------" << endl;
         cout << "1. Acceso a Usuarios" << endl;
         cout << "2. Acceso a Clientes" << endl;
         cout << "3. Acceso a Ventas" << endl;
         cout << "4. Acceso a Productos" << endl;
+        cout << "5. Salir" << endl;
         cout << "A que seccion quiere ingresar: ";
         cin >> opc;
         switch (opc) {
         case 1:
             while (programb)
             {
+                Limpiarpantalla();
                 cout << "Bienvenido al area de usuarios" << endl;
                 cout << "1. Registrar Usuario" << endl;
                 cout << "2. Editar Usuario" << endl;
@@ -87,7 +93,7 @@ int main()
                     PruebaUsuario.EliminarUsuarios(role, useractual);
                     break;
                 case 5:
-                    cout << "Regresando al menú principal" << endl;
+                    cout << "Regresando al menu principal" << endl;
                     programb = false;
                     break;
                 default:
@@ -99,6 +105,7 @@ int main()
         case 2:
             while (programb)
             {
+                Limpiarpantalla();
                 cout << "Bienvenido al area de clientes" << endl;
                 cout << "1. Registrar Cliente" << endl;
                 cout << "2. Editar Cliente" << endl;
@@ -109,22 +116,20 @@ int main()
                 cin >> opc;
                 switch (opc) {
                 case 1:
-
-
                     if (role == 4 || role == 2)
                     {
                         Pruebas.RegisterCliente();
                     }
                     else
                     {
-                        cout << "Acceso denegado, no tiene permiso para ver esta función" << endl;
+                        cout << "Acceso denegado, no tiene permiso para ver esta funcion" << endl;
                     }
                     break;
                 case 2:
                     check = Pruebas.checkvectorclientes();
                     if (check == false)
                     {
-                        cout << "Primero registre un cliente para poder usar esta función" << endl;
+                        cout << "Primero registre un cliente para poder usar esta funcion" << endl;
                         break;
                     }
                     if (role == 4 || role == 2)
@@ -162,6 +167,9 @@ int main()
                     if (role == 4 || role == 2)
                     {
                         Pruebas.BusquedaCliente();
+                        cout << "Presione cualquier tecla para regresar al menu de clientes..." << endl;
+                        cin.ignore();
+                        cin.get();
                     }
                     else
                     {
@@ -181,6 +189,7 @@ int main()
         case 3:
             while (programb)
             {
+                Limpiarpantalla();
                 cout << "Bienvenido al area de ventas" << endl;
                 cout << "1. Registrar Venta" << endl;
                 cout << "2. Ver Venta" << endl;
@@ -209,17 +218,19 @@ int main()
                     }
                     break;
                 case 3:
+                    cout << "Regresando al menu principal" << endl;
                     programb = false;
-                    cout << "Regresando al menú principal" << endl;
                     break;
                 default:
                     cout << "Opcion no valida. Por favor, intente nuevamente." << endl;
                     break;
                 }
             }
+            break;
         case 4:
             while (programb)
             {
+                Limpiarpantalla();
                 cout << "Bienvenido al area de productos" << endl;
                 cout << "1. Registrar Producto" << endl;
                 cout << "2. Buscar Producto" << endl;
@@ -251,11 +262,12 @@ int main()
                     if (check == false)
                     {
                         cout << "Necesitas al menos un producto registrado" << endl;
+                        break;
                     }
 
                     if (role == 4 || role == 2)
                     {
-                        //Placeholder
+                        PruebaProductos.buscarproducto();
                     }
                     else
                     {
@@ -271,7 +283,7 @@ int main()
                     }
                     if (role == 4 || role == 2)
                     {
-                        /*PruebaProductos.modificarproducto();*/
+                        PruebaProductos.modificarproducto();
                     }
                     else
                     {
@@ -297,16 +309,28 @@ int main()
                     break;
                 }
             }
+            break;
+        case 5:
+            cout << "Saliendo del programa..." << endl;
+            return 0;
         default:
             cout << "Opcion no valida. Por favor, intente nuevamente." << endl;
             break;
         }
-    }
+    } while (program);
+
+    return 0;
 }
+
 void ReporteUsuarios(vector<string> a, vector<string> b)
 {
     for (int i = 0; i < a.size(); i++)
     {
         cout << "El usuario " << a[i] << " llevo a cabo la acción de " << b[i] << endl;
     }
+}
+
+void Limpiarpantalla()
+{
+    system("cls");
 }

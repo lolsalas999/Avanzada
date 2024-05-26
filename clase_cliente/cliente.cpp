@@ -111,21 +111,18 @@ string Cliente::gettime()
 void Cliente::RegisterCliente()
 {
 	bool program = true;
-	bool programb = true;
 	bool repeat = false;
 	ClientesObject.id = ClientesObject.id += 1;
-
 
 	string name = "";
 	while (program)
 	{
-
 		cout << "Deme el nombre del nuevo cliente: ";
-		cin >> name;
+		cin.ignore();
+		getline(cin, name);
 
 		for (int i = 0; i < VectorClientes.size(); i++)
 		{
-
 			if (name == VectorClientes[i].name)
 			{
 				cout << "Por favor ingrese un nombre que sea diferente a " << VectorClientes[i].name << endl;
@@ -141,7 +138,6 @@ void Cliente::RegisterCliente()
 		{
 			program = false;
 		}
-
 	}
 
 	setname(name);
@@ -152,7 +148,7 @@ void Cliente::RegisterCliente()
 	while (program)
 	{
 		cout << "Deme el RFC del nuevo Cliente: ";
-		cin >> RFC;
+		getline(cin, RFC);
 		for (int i = 0; i < VectorClientes.size(); i++)
 		{
 			if (RFC == VectorClientes[i].RFC)
@@ -170,20 +166,16 @@ void Cliente::RegisterCliente()
 		{
 			program = false;
 		}
-
 	}
 	setRFC(RFC);
 	getRFC();
 
-	//placeholder del id del regimen fiscal
-
-	program = true;
 	string direccion = "";
+	program = true;
 	while (program)
 	{
 		cout << "Deme la dirección del nuevo cliente: ";
-		cin >> direccion;
-
+		getline(cin, direccion);
 		for (int i = 0; i < VectorClientes.size(); i++)
 		{
 			if (direccion == VectorClientes[i].direccion)
@@ -203,19 +195,18 @@ void Cliente::RegisterCliente()
 		}
 	}
 
-
 	setdireccion(direccion);
 	getdireccion();
 
 	string ciudad = "";
 	cout << "Deme la ciudad en la que se encuentra el nuevo cliente: ";
-	cin >> ciudad;
+	getline(cin, ciudad);
 	setciudad(ciudad);
 	getciudad();
 
 	string estado = "";
 	cout << "Deme el estado en el que se encuentra el nuevo cliente: ";
-	cin >> estado;
+	getline(cin, estado);
 	setestado(estado);
 	getestado();
 
@@ -224,7 +215,7 @@ void Cliente::RegisterCliente()
 	while (program)
 	{
 		cout << "Deme el código postal del nuevo cliente: ";
-		cin >> zipcode;
+		getline(cin, zipcode);
 		for (int i = 0; i < VectorClientes.size(); i++)
 		{
 			if (zipcode == VectorClientes[i].zipcode)
@@ -267,6 +258,15 @@ void Cliente::RegisterCliente()
 		cerr << "Ocurrio un error al escribir en clientes.csv" << e.what() << endl;
 	}
 
+	char respuesta;
+	cout << "Desea registrar otro cliente (S) o regresar al área de clientes (R)? (S/R): ";
+	cin >> respuesta;
+	if (respuesta == 'R' || respuesta == 'r')
+	{
+		LimpiarPantalla();
+		return;
+	}
+	LimpiarPantalla();
 }
 
 void Cliente::CreateClientesArchive()
@@ -333,7 +333,6 @@ void Cliente::ReadArchiveCliente()
 	//Las desempaqueta para poder usar las variables mas facil
 	for (int i = 0; i < (VectorClientes.size()); i++)
 	{
-		cout << "ok" << endl;
 		ClientesObject.id = VectorClientes[i].id;
 		ClientesObject.name = VectorClientes[i].name;
 		ClientesObject.RFC = VectorClientes[i].RFC;
@@ -348,23 +347,19 @@ void Cliente::ReadArchiveCliente()
 void Cliente::EditCliente()
 {
 	int count = 0;
-	int acumid = 0;
 	bool program = true;
-	bool programb = true;
-	bool programc = true;
-	bool programd = true;
 	bool repeat = false;
 	bool found = false;
-	bool notfound = false;
 	int SearchOption;
+
 	cout << "-----------------------------------------------------------------" << endl;
 	cout << "Bienvenido a la seccion de modificado de datos del cliente. " << endl;
 	cout << "Clientes Registrados actualmente: " << VectorClientes.size() << endl;
-	cout << "Por favor seleccione el tipo de dato que quiere cambiar: " << endl;
+
 	while (program)
 	{
-		programd = true;
 		found = false;
+		cout << "Por favor seleccione el tipo de dato que quiere cambiar: " << endl;
 		cout << "1. Nombre" << endl;
 		cout << "2. RFC" << endl;
 		cout << "3. Regimen Fiscal" << endl;
@@ -373,136 +368,111 @@ void Cliente::EditCliente()
 		cout << "6. Direccion" << endl;
 		cout << "7. Codigo Postal" << endl;
 		cout << "8. Regresar al menu principal" << endl;
-		while (programd)
+		cout << "Ingrese su opcion deseada: ";
+		cin >> SearchOption;
+		if (cin.fail())
 		{
-			cout << "Ingrese su opcion deseada: ";
-			cin >> SearchOption;
-			if (cin.fail())
-			{
-				cout << "No puede ingresar una letra." << endl;
-				cin.clear();
-				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			}
-			else
-			{
-				programd = false;
-			}
+			cout << "No puede ingresar una letra." << endl;
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			continue;
 		}
-		string searchname;
-		string searchRFC;
-		string searchciudad;
-		string searchestado;
-		string searchdireccion;
-		string searchcodigopostal;
+
+		string searchname, searchRFC, searchciudad, searchestado, searchdireccion, searchcodigopostal, newvalue;
 		int searchid;
-		vector<int>storeids;
+		vector<int> storeids;
+		char respuesta;
+
 		switch (SearchOption)
 		{
 		case 1:
-			programb = true;
 			cout << "Dame el nombre a buscar: ";
-			cin >> searchname;
+			cin.ignore();
+			getline(cin, searchname);
 			for (int i = 0; i < VectorClientes.size(); i++)
 			{
 				if (searchname == VectorClientes[i].name)
 				{
 					found = true;
-					string newname;
-					while (programb)
+					while (true)
 					{
 						cout << "Deme el nuevo nombre: ";
-						cin >> newname;
+						getline(cin, newvalue);
+						repeat = false;
 						for (int j = 0; j < VectorClientes.size(); j++)
 						{
-							if (newname == VectorClientes[j].name)
+							if (newvalue == VectorClientes[j].name)
 							{
 								cout << "El nombre no se puede repetir, por favor ingrese un nombre diferente a: " << VectorClientes[j].name << endl;
 								repeat = true;
+								break;
 							}
 						}
-						if (repeat == true)
+						if (!repeat)
 						{
-							repeat = false;
-							continue;
+							VectorClientes[i].name = newvalue;
+							SobreEscribirCliente();
+							break;
 						}
-						else
-						{
-							programb = false;
-						}
-
 					}
-					VectorClientes[i].name = newname;
-
 				}
-
 			}
-			if (found == false)
+			if (!found)
 			{
 				cout << "No se encontro ese nombre en nuestra base de datos." << endl;
 			}
-			else
-			{
-				SobreEscribirCliente();
-			}
-
+			LimpiarPantalla();
 			break;
 
 		case 2:
-			programb = true;
 			cout << "Dame el RFC a buscar: ";
-			cin >> searchRFC;
+			cin.ignore();
+			getline(cin, searchRFC);
 			for (int i = 0; i < VectorClientes.size(); i++)
 			{
 				if (searchRFC == VectorClientes[i].RFC)
 				{
 					found = true;
-					string newRFC;
-					while (programb)
+					while (true)
 					{
 						cout << "Deme el nuevo RFC: ";
-						cin >> newRFC;
+						getline(cin, newvalue);
+						repeat = false;
 						for (int j = 0; j < VectorClientes.size(); j++)
 						{
-							if (newRFC == VectorClientes[j].RFC)
+							if (newvalue == VectorClientes[j].RFC)
 							{
 								cout << "El RFC no se puede repetir, por favor ingrese un RFC diferente a: " << VectorClientes[j].RFC << endl;
 								repeat = true;
+								break;
 							}
 						}
-						if (repeat == true)
+						if (!repeat)
 						{
-							repeat = false;
-							continue;
-						}
-						else
-						{
-							programb = false;
+							VectorClientes[i].RFC = newvalue;
+							SobreEscribirCliente();
 							break;
 						}
-
 					}
-					VectorClientes[i].RFC = newRFC;
 				}
-
 			}
-			if (found == false)
+			if (!found)
 			{
 				cout << "No se encontro ese RFC" << endl;
 			}
-			else
-			{
-				SobreEscribirCliente();
-			}
+			LimpiarPantalla();
 			break;
 
 		case 3:
+			// Implementación para el régimen fiscal
+			cout << "Función no implementada aún." << endl;
+			LimpiarPantalla();
 			break;
 
 		case 4:
-			programb = true;
-			programc = true;
 			cout << "Deme la ciudad a buscar: " << endl;
-			cin >> searchciudad;
+			cin.ignore();
+			getline(cin, searchciudad);
 			for (int i = 0; i < VectorClientes.size(); i++)
 			{
 				if (searchciudad == VectorClientes[i].ciudad)
@@ -516,71 +486,60 @@ void Cliente::EditCliente()
 			{
 				cout << "Esta ciudad se repite " << count << " veces" << endl;
 				cout << "Por favor escriba de que ID va a querer cambiar su ciudad: " << endl;
+				for (int id : storeids)
+				{
+					cout << "ID: " << id << endl;
+				}
+				cout << "Por favor escriba su opción: ";
+				cin >> searchid;
 				for (int i = 0; i < storeids.size(); i++)
 				{
-					cout << "ID: " << storeids[i] << endl;
-				}
-				while (programc)
-				{
-					cout << "Por favor escriba su opción: ";
-					cin >> searchid;
-					for (int i = 0; i < storeids.size(); i++)
+					if (searchid == storeids[i])
 					{
-						if (searchid == storeids[i])
+						cout << "Escriba la nueva ciudad: ";
+						cin.ignore();
+						getline(cin, newvalue);
+						for (int j = 0; j < VectorClientes.size(); j++)
 						{
-							string newcity;
-							cout << "Escriba la nueva ciudad: ";
-							cin >> newcity;
-							for (int j = 0; j < VectorClientes.size(); j++)
+							if (VectorClientes[j].id == searchid)
 							{
-								if (VectorClientes[j].id == searchid)
-								{
-									cout << "Ok" << endl;
-									VectorClientes[j].ciudad = newcity;
-									found = true;
-									programc = false;
-									break;
-								}
-
+								VectorClientes[j].ciudad = newvalue;
+								SobreEscribirCliente();
+								break;
 							}
-
 						}
+						break;
 					}
 				}
 			}
 			else if (count == 1)
 			{
-				programc = true;
 				cout << "La ciudad solo existe una vez, se reemplazará la unica existencia." << endl;
 				cout << storeids[0] << endl;
-				string newcity;
-				while (programc)
+				cout << "Escriba la nueva ciudad: ";
+				cin.ignore();
+				getline(cin, newvalue);
+				for (int i = 0; i < VectorClientes.size(); i++)
 				{
-					cout << "Escriba la nueva ciudad: ";
-					cin >> newcity;
-					for (int i = 0; i < VectorClientes.size(); i++)
+					if (VectorClientes[i].id == storeids[0])
 					{
-						if (VectorClientes[i].id == storeids[0])
-						{
-							VectorClientes[i].ciudad = newcity;
-							programc = false;
-							break;
-						}
+						VectorClientes[i].ciudad = newvalue;
+						SobreEscribirCliente();
+						break;
 					}
 				}
-
 			}
-			if (found == false)
+			if (!found)
 			{
 				cout << "No se encontro esa ciudad" << endl;
 			}
-			SobreEscribirCliente();
+			LimpiarPantalla();
 			break;
+
 		case 5:
-			programb = true;
-			programc = true;
 			cout << "Deme el estado a buscar: " << endl;
-			cin >> searchestado;
+			cin.ignore();
+			getline(cin, searchestado);
 			for (int i = 0; i < VectorClientes.size(); i++)
 			{
 				if (searchestado == VectorClientes[i].estado)
@@ -594,186 +553,153 @@ void Cliente::EditCliente()
 			{
 				cout << "Este estado se repite " << count << " veces" << endl;
 				cout << "Por favor escriba de que ID va a querer cambiar su Estado: " << endl;
+				for (int id : storeids)
+				{
+					cout << "ID: " << id << endl;
+				}
+				cout << "Por favor escriba su opción: ";
+				cin >> searchid;
 				for (int i = 0; i < storeids.size(); i++)
 				{
-					cout << "ID: " << storeids[i] << endl;
-				}
-				while (programc)
-				{
-					cout << "Por favor escriba su opción: ";
-					cin >> searchid;
-					for (int i = 0; i < storeids.size(); i++)
+					if (searchid == storeids[i])
 					{
-						if (searchid == storeids[i])
+						cout << "Escriba el nuevo estado: ";
+						cin.ignore();
+						getline(cin, newvalue);
+						for (int j = 0; j < VectorClientes.size(); j++)
 						{
-							string newestado;
-							cout << "Escriba el nuevo estado: ";
-							cin >> newestado;
-							for (int j = 0; j < VectorClientes.size(); j++)
+							if (VectorClientes[j].id == searchid)
 							{
-								if (VectorClientes[j].id == searchid)
-								{
-									cout << "Ok" << endl;
-									VectorClientes[j].estado = newestado;
-									found = true;
-									programc = false;
-									break;
-								}
-
+								VectorClientes[j].estado = newvalue;
+								SobreEscribirCliente();
+								break;
 							}
-
 						}
+						break;
 					}
 				}
 			}
 			else if (count == 1)
 			{
-				programc = true;
-				cout << "La ciudad solo existe una vez, se reemplazará la unica existencia." << endl;
+				cout << "El estado solo existe una vez, se reemplazará la unica existencia." << endl;
 				cout << storeids[0] << endl;
-				string newestado;
-				while (programc)
+				cout << "Escriba el nuevo estado: ";
+				cin.ignore();
+				getline(cin, newvalue);
+				for (int i = 0; i < VectorClientes.size(); i++)
 				{
-					cout << "Escriba el nueva estado: ";
-					cin >> newestado;
-					for (int i = 0; i < VectorClientes.size(); i++)
+					if (VectorClientes[i].id == storeids[0])
 					{
-						if (VectorClientes[i].id == storeids[0])
+						VectorClientes[i].estado = newvalue;
+						SobreEscribirCliente();
+						break;
+					}
+				}
+			}
+			if (!found)
+			{
+				cout << "No se encontro el estado" << endl;
+			}
+			LimpiarPantalla();
+			break;
+
+		case 6:
+			cout << "Deme la direccion a buscar: ";
+			cin.ignore();
+			getline(cin, searchdireccion);
+			for (int i = 0; i < VectorClientes.size(); i++)
+			{
+				if (searchdireccion == VectorClientes[i].direccion)
+				{
+					found = true;
+					while (true)
+					{
+						cout << "Deme la nueva direccion: ";
+						getline(cin, newvalue);
+						repeat = false;
+						for (int j = 0; j < VectorClientes.size(); j++)
 						{
-							VectorClientes[i].estado = newestado;
-							programc = false;
+							if (newvalue == VectorClientes[j].direccion)
+							{
+								cout << "La direccion no se puede repetir, por favor ingrese una direccion diferente a: " << VectorClientes[j].direccion << endl;
+								repeat = true;
+								break;
+							}
+						}
+						if (!repeat)
+						{
+							VectorClientes[i].direccion = newvalue;
+							SobreEscribirCliente();
 							break;
 						}
 					}
 				}
-
 			}
-			if (found == false)
+			if (!found)
 			{
-				cout << "No se encontro el estado" << endl;
+				cout << "No se encontro esta direccion" << endl;
 			}
-			SobreEscribirCliente();
+			LimpiarPantalla();
 			break;
-		case 6:
-			programb = true;
-			cout << "Deme la direccion a buscar: ";
-			cin >> searchdireccion;
 
-			for (int i = 0; i < VectorClientes.size(); i++)
-			{
-
-				if (searchdireccion == VectorClientes[i].direccion)
-				{
-
-					found = true;
-					string newdirection;
-
-					while (programb)
-					{
-						cout << "Deme la nueva direccion: ";
-						cin >> newdirection;
-
-						for (int j = 0; j < VectorClientes.size(); j++)
-						{
-							if (newdirection == VectorClientes[j].direccion)
-							{
-								cout << "La direccion no se puede repetir, por favor ingrese una direccion diferente a: " << VectorClientes[j].direccion << endl;
-								repeat = true;
-							}
-						}
-
-						if (repeat == true)
-						{
-							repeat = false;
-							continue;
-						}
-
-						else
-						{
-							programb = false;
-						}
-
-					}
-
-					VectorClientes[i].direccion = newdirection;
-				}
-				if (found = false)
-				{
-					cout << "No se encontro esta direccion" << endl;
-				}
-				else
-				{
-					SobreEscribirCliente();
-				}
-			}
-
-
-
-			break;
 		case 7:
-
-			programb = true;
-
 			cout << "Deme el codigo postal a buscar: ";
-			cin >> searchcodigopostal;
-
+			cin.ignore();
+			getline(cin, searchcodigopostal);
 			for (int i = 0; i < VectorClientes.size(); i++)
 			{
 				if (searchcodigopostal == VectorClientes[i].zipcode)
 				{
 					found = true;
-					string newcodigopostal;
-
-					while (programb)
+					while (true)
 					{
 						cout << "Deme el nuevo codigo postal: ";
-						cin >> newcodigopostal;
-
+						getline(cin, newvalue);
+						repeat = false;
 						for (int j = 0; j < VectorClientes.size(); j++)
 						{
-							if (newcodigopostal == VectorClientes[j].zipcode)
+							if (newvalue == VectorClientes[j].zipcode)
 							{
 								cout << "El codigo postal no se puede repetir, por favor ingrese un codigo postal diferente a: " << VectorClientes[j].zipcode << endl;
 								repeat = true;
+								break;
 							}
 						}
-
-						if (repeat == true)
+						if (!repeat)
 						{
-							repeat = false;
-							continue;
+							VectorClientes[i].zipcode = newvalue;
+							SobreEscribirCliente();
+							break;
 						}
-
-						else
-						{
-							programb = false;
-						}
-
 					}
-
-					VectorClientes[i].zipcode = newcodigopostal;
 				}
-
 			}
-			if (found == false)
+			if (!found)
 			{
 				cout << "No se encontro ese codigo postal" << endl;
 			}
-			else
-			{
-				SobreEscribirCliente();
-			}
-
+			LimpiarPantalla();
 			break;
 
 		case 8:
-
 			program = false;
 			cout << "Regresando al menu principal" << endl;
+			LimpiarPantalla();
 			break;
 
 		default:
 			cout << "Por favor ingrese una opcion valida" << endl;
+		}
+
+		if (program)
+		{
+			cout << "Desea seguir editando? (S/N): ";
+			cin >> respuesta;
+			if (respuesta == 'N' || respuesta == 'n')
+			{
+				program = false;
+				LimpiarPantalla();
+			}
 		}
 	}
 }
@@ -790,7 +716,8 @@ void Cliente::BorrarCliente()
 	{
 		cout << "Ingrese el id del cliente a borrar, actualmente hay " << VectorClientes.size() << " IDS registrados: ";
 		cin >> searchopc;
-		if (cin.fail()) {
+		if (cin.fail())
+		{
 			cout << "Error! Por favor ingrese un numero y no un hilo" << endl;
 			cin.clear();
 			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -811,7 +738,6 @@ void Cliente::BorrarCliente()
 		{
 			notfound = true;
 		}
-
 	}
 
 	if (found == true)
@@ -825,7 +751,6 @@ void Cliente::BorrarCliente()
 
 	while (confirmation)
 	{
-
 		error = true;
 		cout << "Estas seguro que lo quieres borrar? " << endl;
 		cout << "1. Si" << endl;
@@ -866,7 +791,6 @@ void Cliente::BorrarCliente()
 				}
 			}
 			confirmation = false;
-
 			break;
 		case 2:
 			cout << "De acuerdo no se eliminará nada." << endl;
@@ -875,9 +799,9 @@ void Cliente::BorrarCliente()
 		default:
 			cout << "Ingrese una opción valida" << endl;
 		}
+
+		LimpiarPantalla();
 	}
-
-
 }
 
 void Cliente::SobreEscribirCliente()
@@ -920,6 +844,7 @@ void Cliente::BusquedaCliente()
 	int searchopc = 0;
 	int idopc;
 	string stringopc;
+	LimpiarPantalla();
 	cout << "-----------------------------------------------------------------" << endl;
 	cout << "Bienvenido a la busqueda de Clientes, seleccione el criterio por el cual quiere buscar." << endl;
 	cout << "1. Busqueda por id" << endl;
@@ -991,9 +916,11 @@ void Cliente::BusquedaCliente()
 			}
 			program = false;
 			break;
+
 		case 2:
 			cout << "Deme el nombre a buscar: ";
-			cin >> stringopc;
+			cin.ignore();
+			getline(cin, stringopc);
 			for (int i = 0; i < VectorClientes.size(); i++)
 			{
 				if (VectorClientes[i].name == stringopc)
@@ -1022,9 +949,11 @@ void Cliente::BusquedaCliente()
 			}
 			program = false;
 			break;
+
 		case 3:
 			cout << "Deme la ciudad a buscar: ";
-			cin >> stringopc;
+			cin.ignore();
+			getline(cin, stringopc);
 			for (int i = 0; i < VectorClientes.size(); i++)
 			{
 				if (VectorClientes[i].ciudad == stringopc)
@@ -1053,9 +982,11 @@ void Cliente::BusquedaCliente()
 			}
 			program = false;
 			break;
+
 		case 4:
 			cout << "Deme el estado a buscar: ";
-			cin >> stringopc;
+			cin.ignore();
+			getline(cin, stringopc);
 			for (int i = 0; i < VectorClientes.size(); i++)
 			{
 				if (VectorClientes[i].estado == stringopc)
@@ -1084,6 +1015,7 @@ void Cliente::BusquedaCliente()
 			}
 			program = false;
 			break;
+
 		default:
 			cout << "Escriba una opcion valida del menu" << endl;
 		}
@@ -1154,6 +1086,11 @@ bool Cliente::checkvectorclientes()
 		return true;
 	}
 
+}
+
+void Cliente::LimpiarPantalla()
+{
+	system("cls");
 }
 
 string Cliente::ModificaLinea(string cadena, int elemento, Clientes& temporal)
