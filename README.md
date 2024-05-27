@@ -3,6 +3,11 @@
 CSV para la gestión de bases de datos. El programa funcionará como un sistema ERP básico diseñado
 específicamente para la gestión de ventas, productos y roles de usuario.
 
+**Integrantes** 
+- Juan Pablo Ramírez Carlón (ID)
+- Ricardo Zerón Del Valle (ID)
+- Emilio Rendón Trias (0267019) 
+
 ## **Clase Usuario**:
 ### Funciones:
 >`usuario();`
@@ -119,11 +124,11 @@ Utilizando `#include <ctime>` `#pragma warning(disable : 4996)` respectivamente 
  string date = date_time;
  return date;
 ```
-`bool LeerArchivoUsuario();`, `bool AdministradorExiste();`, `void LimpiarPantalla();`, `void OrdenarUsuariosPorID();`, `UsuarioClear()` y `void ActualizarArchivoUsuario();` son funciones para el correcto funcionamiento del arcivio de los usuarios. 
+`bool LeerArchivoUsuario();`, `bool AdministradorExiste();`, `void LimpiarPantalla();`, `void OrdenarUsuariosPorID();`, `UsuarioClear()` y `void ActualizarArchivoUsuario();` son funciones para el correcto funcionamiento del archivo de los usuarios. 
 `ActualizarArchivoUsuario` se llama cada que el archivo se tenga que cambiar.
 
 
-### `CallLogin()`
+<ins>**CallLogin():**</ins>
 1. Verificación de existencia del archivo usuarios.csv:
 
 ```cpp
@@ -208,16 +213,76 @@ Finalmente, se llama a la función IniciarSesion con los parámetros useractual 
 
 Este código verifica si el archivo usuarios.csv existe. Si no existe, crea una cuenta de administrador por defecto con las credenciales admin y guarda estos datos en el archivo usuarios.csv. Si el archivo ya existe, simplemente lee los datos de usuarios desde el archivo. Luego, procede a iniciar sesión con las credenciales actuales del usuario.
 
->
-`CallLogin()`
-`encriptar()`
-`desencriptar`
->
+<ins>**encriptar() & desencriptar():**</ins>
+
+Función: encriptar
+1. Definición de la funciónn
+```cpp
+string usuario::encriptar(string& password)
+```
+Esta línea define una función miembro encriptar de la clase usuario, que toma una referencia a una cadena password como parámetro y devuelve una cadena.
+
+2. Copia de la contraseña:
+```cpp
+string encriptado = password;
+```
+Se crea una nueva cadena encriptado, inicializada con el valor de password.
+
+3. Bucle de encriptación:
+```cpp
+for (size_t i = 0; i < encriptado.size(); ++i) {
+    encriptado[i] += 3;
+}
+```
+Un bucle for itera a través de cada carácter de la cadena encriptado.
+Cada carácter se incrementa en 3 posiciones en la tabla ASCII, encriptando efectivamente la contraseña.
+
+4. Devolución de la contraseña encriptada:
+
+```cpp
+return encriptado;
+```
+Se devuelve la cadena encriptada encriptado.
+
+Función: desencriptar
+1. Definición de la función:
+
+```cpp
+string usuario::desencriptar(string& password)
+```
+Esta línea define una función miembro desencriptar de la clase usuario, que toma una referencia a una cadena password como parámetro y devuelve una cadena.
+
+2. Copia de la contraseña:
+
+```cpp
+string desencriptado = password;
+```
+Se crea una nueva cadena desencriptado, inicializada con el valor de password.
+
+
+3. Bucle de desencriptación:
+
+```cpp
+for (size_t i = 0; i < desencriptado.size(); ++i) {
+    desencriptado[i] -= 3;
+}
+```
+Un bucle for itera a través de cada carácter de la cadena desencriptado.
+Cada carácter se decrementa en 3 posiciones en la tabla ASCII, desencriptando efectivamente la contraseña.
+
+4. Devolución de la contraseña desencriptada:
+
+```cpp
+return desencriptado;
+```
+Se devuelve la cadena desencriptada desencriptado.
+
+- Función encriptar: Esta función toma una cadena de contraseña, desplaza cada carácter 3 posiciones en la tabla ASCII para encriptarla y devuelve la cadena encriptada.
+- Función desencriptar: Esta función toma una cadena de contraseña encriptada, desplaza cada carácter 3 posiciones hacia atrás en la tabla ASCII para desencriptarla y devuelve la cadena desencriptada
 
 ## **Clase Clientes**:
 ### Funciones:
-> `Cliente();`
-`void setid(int);`
+> `void setid(int);`
 `int getid();`
 `void setname(string);`
 `string getname();`
@@ -234,8 +299,237 @@ Este código verifica si el archivo usuarios.csv existe. Si no existe, crea una 
 `void setzipcode(string);`
 `string getzipcode();`
 `string gettime();`
-`void RegisterCliente();`
-`void CreateClientesArchive();`
+>
+Hasta aqui son pares de getters y setters para todos los elementos se la estrutura en la clase. Con exepcion de el campo ` gettime` que funciona de la misma manera que `date` en la clase usuarios.
+
+<ins>**void RegisterCliente();**</ins>
+
+1. Definición de la función:
+
+````cpp
+void Cliente::RegisterCliente()
+````
+Esta línea define la función RegisterCliente de la clase Cliente.
+
+2. Inicialización de variables:
+
+````cpp
+bool program = true;
+bool repeat = false;
+ClientesObject.id = ClientesObject.id += 1;`
+````
+- Se inicializan las variables program y repeat como booleanas.
+- Se incrementa el ID del cliente.
+
+3. Entrada y verificación del nombre del cliente:
+
+````cpp
+string name = "";
+while (program)
+{
+    cout << "Deme el nombre del nuevo cliente: ";
+    cin.ignore();
+    getline(cin, name);
+
+    for (int i = 0; i < VectorClientes.size(); i++)
+    {
+        if (name == VectorClientes[i].name)
+        {
+            cout << "Por favor ingrese un nombre que sea diferente a " << VectorClientes[i].name << endl;
+            repeat = true;
+        }
+    }
+    if (repeat == true)
+    {
+        repeat = false;
+        continue;
+    }
+    else
+    {
+        program = false;
+    }
+}
+
+setname(name);
+getname();
+````
+- Solicita al usuario el nombre del nuevo cliente.
+- Verifica que el nombre no esté ya en uso en VectorClientes.
+- Si el nombre está en uso, solicita otro nombre.
+- Si no está en uso, establece el nombre del cliente.
+
+4. Entrada y verificación del RFC:
+
+````cpp
+string RFC = "";
+program = true;
+while (program)
+{
+    cout << "Deme el RFC del nuevo Cliente: ";
+    getline(cin, RFC);
+    for (int i = 0; i < VectorClientes.size(); i++)
+    {
+        if (RFC == VectorClientes[i].RFC)
+        {
+            cout << "Por favor ingrese un RFC que sea diferente a " << VectorClientes[i].RFC << endl;
+            repeat = true;
+        }
+    }
+    if (repeat == true)
+    {
+        repeat = false;
+        continue;
+    }
+    else
+    {
+        program = false;
+    }
+}
+setRFC(RFC);
+getRFC();
+````
+- Solicita al usuario el RFC del nuevo cliente.
+- Verifica que el RFC no esté ya en uso en VectorClientes.
+- Si el RFC está en uso, solicita otro RFC.
+- Si no está en uso, establece el RFC del cliente.
+
+5. Entrada y verificación de la dirección:
+````cpp
+string direccion = "";
+program = true;
+while (program)
+{
+    cout << "Deme la dirección del nuevo cliente: ";
+    getline(cin, direccion);
+    for (int i = 0; i < VectorClientes.size(); i++)
+    {
+        if (direccion == VectorClientes[i].direccion)
+        {
+            cout << "Por favor ingrese una direccion que sea diferente a " << VectorClientes[i].direccion << endl;
+            repeat = true;
+        }
+    }
+    if (repeat == true)
+    {
+        repeat = false;
+        continue;
+    }
+    else
+    {
+        program = false;
+    }
+}
+
+setdireccion(direccion);
+getdireccion();
+````
+- Solicita al usuario la dirección del nuevo cliente.
+- Verifica que la dirección no esté ya en uso en VectorClientes.
+- Si la dirección está en uso, solicita otra dirección.
+- Si no está en uso, establece la dirección del cliente.
+  
+6. Entrada de la ciudad y el estado:
+
+````cpp
+string ciudad = "";
+cout << "Deme la ciudad en la que se encuentra el nuevo cliente: ";
+getline(cin, ciudad);
+setciudad(ciudad);
+getciudad();
+
+string estado = "";
+cout << "Deme el estado en el que se encuentra el nuevo cliente: ";
+getline(cin, estado);
+setestado(estado);
+getestado();
+````
+- Solicita al usuario la ciudad y el estado del nuevo cliente.
+- Establece la ciudad y el estado del cliente.
+
+5. Entrada y verificación del código postal:
+
+```` cpp
+program = true;
+string zipcode = "";
+while (program)
+{
+    cout << "Deme el código postal del nuevo cliente: ";
+    getline(cin, zipcode);
+    for (int i = 0; i < VectorClientes.size(); i++)
+    {
+        if (zipcode == VectorClientes[i].zipcode)
+        {
+            cout << "Por favor ingrese un codigo postal que sea diferente a " << VectorClientes[i].zipcode << endl;
+            repeat = true;
+        }
+    }
+    if (repeat == true)
+    {
+        repeat = false;
+        continue;
+    }
+    else
+    {
+        program = false;
+    }
+}
+
+setzipcode(zipcode);
+getzipcode();
+````
+- Solicita al usuario el código postal del nuevo cliente.
+- Verifica que el código postal no esté ya en uso en VectorClientes.
+- Si el código postal está en uso, solicita otro código postal.
+- Si no está en uso, establece el código postal del cliente.
+
+7. Guardar los datos del cliente en un archivo CSV:
+
+````cpp
+ClientesObject.date = gettime();
+
+ofstream SaveFile;
+try
+{
+    SaveFile.open("clientes.csv", fstream::app);
+    if (!SaveFile)
+    {
+        throw std::runtime_error("No se pudo abrir el clientes.csv para escritura");
+    }
+    SaveFile.seekp(0, ios::end); // Mover el puntero al final del archivo
+    SaveFile << endl;
+    SaveFile << ClientesObject.id << "," << ClientesObject.name << "," << ClientesObject.RFC << "," << ClientesObject.fiscal_regimen_id << "," << ClientesObject.direccion << "," << ClientesObject.ciudad << "," << ClientesObject.estado << "," << ClientesObject.zipcode << "," << ClientesObject.date << endl;
+    SaveFile.close();
+}
+catch (const std::exception& e)
+{
+    cerr << "Ocurrio un error al escribir en clientes.csv" << e.what() << endl;
+}
+````
+- Establece la fecha y hora actual para el objeto ClientesObject.
+- Intenta abrir el archivo clientes.csv en modo de anexado (append).
+- Si no se puede abrir el archivo, lanza una excepción.
+- Escribe los datos del cliente en el archivo y cierra el archivo.
+
+8. Solicitar si se quiere registrar otro cliente o regresar al área de clientes:
+
+````cpp
+char respuesta;
+cout << "Desea registrar otro cliente (S) o regresar al área de clientes (R)? (S/R): ";
+cin >> respuesta;
+if (respuesta == 'R' || respuesta == 'r')
+{
+    LimpiarPantalla();
+    return;
+}
+LimpiarPantalla();
+````
+- Solicita al usuario si desea registrar otro cliente o regresar al área de clientes.
+- Si la respuesta es R o r, limpia la pantalla y retorna.
+- De lo contrario, limpia la pantalla y permite registrar otro cliente.
+
+Este código define una función RegisterCliente que permite registrar un nuevo cliente. Solicita al usuario los detalles del cliente, verifica que los datos no estén duplicados, y guarda la información en un archivo CSV. Al final, permite al usuario decidir si desea registrar otro cliente o regresar al área de clientes.
+
+>`void CreateClientesArchive();`
 `void ReadArchiveCliente();`
 `void EditCliente();`
 `void BorrarCliente();`
@@ -243,8 +537,82 @@ Este código verifica si el archivo usuarios.csv existe. Si no existe, crea una 
 `void BusquedaCliente();`
 `int VectorSize();`
 `void Clear();`
-`void CrearReporteArchivo();`
-`void RegistrarReporteCliente(string, string);`
+>
+son funciones para el correcto funcionamiento del archivo de los clientes. 
+
+<ins>**void CrearReporteArchivo(); & void RegistrarReporteCliente(string, string):**</ins>
+
+Función: CrearReporteArchivo
+1. Definición de la función:
+
+````cpp
+void Cliente::CrearReporteArchivo()
+````
+Esta línea define la función CrearReporteArchivo de la clase Cliente.
+
+2. Apertura del archivo para escritura:
+
+````cpp
+ofstream SaveFile;
+try
+{
+    SaveFile.open("reporteusuarios.txt", fstream::out);
+    if (!SaveFile)
+    {
+        throw std::runtime_error("No se pudo abrir el reportesusuarios.txt para escritura");
+    }
+    SaveFile << endl;
+    SaveFile.close();
+}
+catch (const std::exception& e)
+{
+    cerr << "Ocurrio un error al escribir en reporteusuarios.txt" << e.what() << endl;
+}
+````
+- Se crea un objeto ofstream llamado SaveFile para manejar las operaciones de salida de archivos.
+- En un bloque try, se intenta abrir el archivo reporteusuarios.txt en modo de salida (escritura).
+- Si el archivo no se puede abrir, se lanza una excepción.
+- Si el archivo se abre correctamente, se escribe una línea vacía y se cierra el archivo.
+- En el bloque catch, se captura cualquier excepción lanzada y se muestra un mensaje de error en cerr.
+
+Función: RegistrarReporteCliente
+
+1. Definición de la función:
+
+````cpp
+void Cliente::RegistrarReporteCliente(string usuario, string accion)
+````
+Esta línea define la función RegistrarReporteCliente de la clase Cliente, que toma dos parámetros: usuario y accion, ambos de tipo string.
+
+2. Apertura del archivo para anexar datos:
+
+````cpp
+ofstream SaveFile;
+try
+{
+    SaveFile.open("reporteusuarios.txt", fstream::app);
+    if (!SaveFile)
+    {
+        throw std::runtime_error("No se pudo abrir el reportesusuarios.txt para escritura");
+    }
+    SaveFile << endl;
+    SaveFile << "El usuario " << usuario << " hizo " << accion << endl;
+    SaveFile.close();
+}
+catch (const std::exception& e)
+{
+    cerr << "Ocurrio un error al escribir en reporteusuarios.txt" << e.what() << endl;
+}
+````
+- Se crea un objeto ofstream llamado SaveFile para manejar las operaciones de salida de archivos.
+- En un bloque try, se intenta abrir el archivo reporteusuarios.txt en modo de anexado (append).
+- Si el archivo no se puede abrir, se lanza una excepción.
+- Si el archivo se abre correctamente, se escribe una línea vacía y luego se registra la acción del usuario en el formato: "El usuario [usuario] hizo [acción]".
+- Se cierra el archivo.
+- En el bloque catch, se captura cualquier excepción lanzada y se muestra un mensaje de error en cerr.
+
+Función CrearReporteArchivo: Esta función crea (o limpia) un archivo llamado reporteusuarios.txt. Si el archivo no se puede abrir, se muestra un mensaje de error.
+Función RegistrarReporteCliente: Esta función agrega una entrada en reporteusuarios.txt que registra una acción realizada por un usuario. Si el archivo no se puede abrir, se muestra un mensaje de error.
 >
 
 
@@ -267,13 +635,17 @@ Este código verifica si el archivo usuarios.csv existe. Si no existe, crea una 
 `bool gethas_iva();`
 `void setstock(int);`
 `int getstock();`
-`void registrarproducto();`
+>
+Hasta aqui son pares de getters y setters para todos los elementod se la estrutura en la clase. 
+
+>`void registrarproducto();`
 `void archivoproductos();`
 `void leerproductos();`
 `vector<string> buscarproducto(string);`
 `void modificarproducto(string);`
 `void ClearProductos();`
 >
+son funciones para el correcto funcionamiento del archivo de los productos. 
 
 ## **Clase Presentacion**:
 ### Funciones:
@@ -282,12 +654,120 @@ Este código verifica si el archivo usuarios.csv existe. Si no existe, crea una 
 `int getid();`
 `void setname(string);`
 `string getname();`
-`void registrarpresentacion();`
-`void archivopresentacion();`
+>
+Hasta aqui son pares de getters y setters para todos los elementod se la estrutura siguiente. 
+
+<ins>**void registrarpresentacion();**</ins>
+
+1. Definición de la función:
+
+````cpp
+void Presentacion::registrarpresentacion()
+````
+Esta línea define la función registrarpresentacion de la clase Presentacion.
+
+2. Asignación del ID:
+
+````cpp
+
+int id;
+if (vectorpresentacionl.size() == 0)
+{
+    id = 1;
+}
+else
+{
+    id = PresentacionP.id + 1;
+}
+````
+Si el vector vectorpresentacionl está vacío, asigna id a 1.
+Si el vector no está vacío, asigna id al siguiente valor después del último ID registrado (PresentacionP.id + 1).
+
+3. Entrada del nombre de la presentación:
+````cpp
+string name;
+cout << "Deme el nombre de la presentación del producto a registrar: ";
+cin.ignore();
+getline(cin, name);
+````
+Solicita al usuario el nombre de la presentación del producto y lo almacena en la variable name.
+
+4. Asignación del ID y el nombre:
+
+````cpp
+Copy code
+setid(id);
+setname(name);
+LimpiarPantalla();
+````
+Asigna el ID y el nombre utilizando las funciones setid y setname.
+Limpia la pantalla.
+
+5. Guardado de los datos en un archivo CSV:
+
+````cpp
+ofstream SaveFile;
+try
+{
+    SaveFile.open("presentacion.csv", fstream::app);
+    if (!SaveFile)
+    {
+        throw std::runtime_error("No se pudo abrir el presentacion.csv para escritura");
+    }
+    SaveFile.seekp(0, ios::end); // Mover el puntero al final del archivo
+    SaveFile << endl;
+    SaveFile << PresentacionP.id << "," << PresentacionP.name << endl;
+    SaveFile.close();
+}
+catch (const std::exception& e)
+{
+    cerr << "Ocurrio un error al escribir en presentacion.csv" << e.what() << endl;
+}
+````
+- Intenta abrir el archivo presentacion.csv en modo de anexado.
+- Si el archivo no se puede abrir, lanza una excepción.
+- Si se abre correctamente, mueve el puntero al final del archivo y agrega una nueva línea con el ID y el nombre de la presentación.
+- Cierra el archivo.
+
+Función registrarpresentacion: Esta función registra una nueva presentación de producto. Solicita el nombre de la presentación, asigna un ID único, guarda los datos en un archivo CSV, y maneja cualquier excepción que ocurra durante el proceso de escritura en el archivo.
+
+<ins>**void archivopresentacion();**</ins>
+
+1. Definición de la función:
+
+````cpp
+void Presentacion::archivopresentacion()
+````
+Esta línea define la función archivopresentacion de la clase Presentacion.
+
+2. Creación del archivo CSV con encabezado:
+
+````cpp
+ofstream SaveFile;
+try
+{
+    SaveFile.open("presentacion.csv", fstream::out);
+    if (!SaveFile)
+    {
+        throw std::runtime_error("No se pudo abrir el clientes.csv para escritura");
+    }
+    SaveFile << "Id,Presentacion";
+    SaveFile.close();
+}
+catch (const std::exception& e)
+{
+    cerr << "Ocurrio un error al escribir en clientes.csv" << e.what() << endl;
+}
+````
+- Intenta abrir el archivo presentacion.csv en modo de salida (escritura).
+- Si el archivo no se puede abrir, lanza una excepción.
+- Si se abre correctamente, escribe el encabezado "Id,Presentacion" en el archivo.
+- Cierra el archivo.
+Función archivopresentacion: Esta función crea un archivo CSV con el encabezado "Id,Presentacion" para registrar presentaciones de productos. Maneja cualquier excepción que ocurra durante el proceso de creación del archivo.
+
 `void leerarchivopresentacion();`
 `void clearpresentacion();`
->
-
+son funciones para el correcto funcionamiento del archivo de las precentaciones. 
 
 ## **Clase Venta**:
 ### Funciones:
@@ -306,10 +786,263 @@ Este código verifica si el archivo usuarios.csv existe. Si no existe, crea una 
 `void setTotalAmount(float total);`
 `float getTotalAmount();`
 `string getDateTime();`
-`void registrarVenta();`
+>
+Hasta aqui son pares de getters y setters para todos los elementod se la estrutura siguiente. Con exepcion de el campo `DateTime` que funciona de la misma manera que fue explicada en la clase cliente.
+
+<ins>**void registrarVenta();**</ins>
+
+1. Definición de la función:
+
+````cpp
+void Venta::registrarVenta()
+````
+Esta línea define la función registrarVenta de la clase Venta.
+
+2. Preparación para el registro de ventas:
+
+````cpp
+LimpiarPantalla();
+ClearProductos();
+clearventas();
+VectorUsuarios.clear();
+leerVentas();
+ReadArchiveCliente();
+LeerArchivoUsuario();
+leerproductos();
+````
+Estas líneas llaman a varias funciones para limpiar datos previos y leer archivos necesarios para el proceso de ventas.
+
+3. Inicialización de variables:
+
+````cpp
+char seguir = 's';
+bool program = true;
+bool found = false;
+bool notfound = false;
+if (VectorVentas.size() == 0)
+{
+    venta.id = 1;
+}
+else
+{
+    venta.id = venta.id + 1;
+}
+````
+Se inicializan varias variables y se establece el ID de la venta.
+
+4. Proceso de registro de ventas:
+
+````cpp
+do {
+    cout << "\n==================== Registro de Ventas ====================\n";
+    int idCliente = 0;
+    while (program)
+    {
+        cout << "Ingrese el id del cliente: ";
+        cin >> idCliente;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        for (int i = 0; i < VectorClientes.size(); i++)
+        {
+            if (VectorClientes[i].id == idCliente)
+            {
+                found = true;
+            }
+            else {
+                notfound = true;
+            }
+        }
+        if (found == true)
+        {
+            program = false;
+        }
+        else if (found == false && notfound == true)
+        {
+            cout << "No tenemos ese id en nuestra base de datos, por favor ingrese uno que si existe." << endl;
+        }
+    }
+}
+````
+Se solicita y verifica el ID del cliente.
+
+5. Establecer el ID del cliente:
+
+````cpp
+setIdCliente(idCliente);
+program = true;
+int idEmpleado = 0;
+
+found = false;
+notfound = false;
+
+while (program)
+{
+    cout << "Ingrese el id del Empleado: ";
+    cin >> idEmpleado;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    for (int i = 0; i < VectorUsuarios.size(); i++)
+    {
+        if (VectorUsuarios[i].id == idEmpleado)
+        {
+            found = true;
+        }
+        else
+        {
+            notfound = true;
+        }
+        if (found == true)
+        {
+            program = false;
+        }
+        else if (found == false && notfound == true)
+        {
+            cout << "No tenemos ese id en nuestra base de datos, por favor ingrese uno que si existe." << endl;
+        }
+    }
+}
+````
+Se solicita y verifica el ID del empleado.
+
+6. Establecer el ID del empleado:
+
+````cpp
+setIdEmpleado(idEmpleado);
+
+program = true;
+found = false;
+notfound = false;
+int idsearch;
+float priceperunit;
+int nameindex;
+
+while (program)
+{
+    cout << "Ingrese el id del producto a comprar: ";
+    cin >> idsearch;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    for (int i = 0; i < VectorProductos.size(); i++)
+    {
+        if (VectorProductos[i].id == idsearch)
+        {
+            found = true;
+            priceperunit = VectorProductos[i].price;
+            setppu(priceperunit);
+            nameindex = i;
+        }
+        else
+        {
+            notfound = true;
+        }
+        if (found == true)
+        {
+            program = false;
+        }
+        else if (found == false && notfound == true)
+        {
+            cout << "No tenemos ese id en nuestra base de datos, por favor ingrese uno que si existe." << endl;
+        }
+    }
+
+}
+````
+Se solicita y verifica el ID del producto.
+
+7. Establecer el ID del producto:
+
+````cpp
+setidproducto(idsearch);
+
+cout << "El precio por unidad de este producto es: " << priceperunit << endl;
+
+int cant = 0;
+program = true;
+bool cancelled = false;;
+
+while (program)
+{
+    cout << "Ingrese la cantidad de productos que desea comprar: ";
+    cin >> cant;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    if (VectorProductos[nameindex].stock < cant || cant <= 0)
+    {
+        cout << "No tenemos suficiente stock para completar esta venta, cancelando la venta." << endl;
+        cancelled = true;
+        program = false;
+        break;
+    }
+    else
+    {
+        VectorProductos[nameindex].stock = VectorProductos[nameindex].stock - cant;
+        program = false;
+        setcant(cant);
+        continue;
+    }
+
+}
+````
+Se solicita la cantidad de productos a comprar y se verifica si hay suficiente stock.
+
+8. Calcular el total y registrar la venta:
+
+````cpp
+float total = 0;
+if (cancelled == true)
+{
+    cout << "Venta cancelada" << endl;
+}
+else {
+    total = priceperunit * cant;
+    cout << "El total a pagar sera de: " << total << endl;
+
+    setTotalAmount(total);
+
+    venta.date = getDateTime();
+
+    ofstream SaveFile("Ventas.csv", fstream::app);
+    if (SaveFile.is_open()) {
+        SaveFile << endl;
+        SaveFile << venta.id << "," << venta.id_Cliente << "," << venta.id_Empleado << ","
+            << venta.idproducto << "," << venta.cant << "," << venta.ppu << "," << venta.total << "," << venta.date << "\n";
+        SaveFile.close();
+        cout << "Venta registrada con exito.\n";
+    }
+    else {
+        cerr << "Error al abrir el archivo para escritura.\n";
+    }
+    SaveFile;
+    try
+    {
+
+        SaveFile.open("Productos.csv", fstream::out);
+        if (!SaveFile)
+
+        {
+            throw std::runtime_error("No se pudo abrir el Productos.csv para escritura");
+        }
+
+        SaveFile << "Id,UPC,Nombre,Id_presentacion,Precio,Costo,IVA,Stock" << endl;
+
+        for (int i = 0; i < VectorProductos.size(); i++)
+        {
+            SaveFile << VectorProductos[i].id << "," << VectorProductos[i].UPC << "," << VectorProductos[i].name << "," << VectorProductos[i].id_presentacion << "," << VectorProductos[i].price << "," << VectorProductos[i].cost << "," << VectorProductos[i].has_iva << "," << VectorProductos[i].stock << endl;
+        }
+        SaveFile.close();
+    }
+
+    catch (const std::exception& e)
+    {
+        cerr << "Ocurrio un error al escribir en clientes.csv" << e.what() << endl;
+    }
+
+}
+
+cout << "\nDesea registrar otra venta? (s/n): ";
+cin >> seguir;
+cin.ignore(numeric_limits<streamsize>::max(), '\n');
+````
+
 `void archivoVenta();`
 `void leerVentas();`
 `void clearventas();`
->
 
-
+son funciones para el correcto funcionamiento del archivo de las ventas. 
